@@ -71,13 +71,14 @@ public class Core {
     		frame = new JFrame("Loading..");
     	}
 		currentlyselected = w;
-    	currentlyselected.init();
+		currentlyselected.init();
     	frame.setLayout(new BorderLayout());
 		frame.add(currentlyselected, "Center");
 		frame.setTitle(w.getName());
 		currentlyselected.setFocusable(true);
 		frame.pack();
 		frame.setVisible(true);
+    	currentlyselected.onLoad();
     }
 
     public Core() {

@@ -15,6 +15,7 @@ public class Game {
 	private static final Game GAME = new Game();
 	private final Core RPEG = new Core();
 	private void startGame() {
+		Core.center_player = false;
 		RPEG.init(800, 600);
 		Window w = new GameWindow(RPEG);
 		RPEG.setWindow(w);

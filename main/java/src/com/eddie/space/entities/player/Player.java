@@ -10,17 +10,34 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.eddie.rpeg.engine.entity.Entity;
+import com.eddie.rpeg.engine.entity.types.Killable;
+import com.eddie.rpeg.engine.level.Level;
+import com.eddie.rpeg.engine.system.Core;
 import com.eddie.space.entities.SpaceCraft;
 
 public class Player extends SpaceCraft {
+	/**
+	 * @param name
+	 * @param core
+	 * @param level
+	 */
+	public Player(String name, Core core, Level level) {
+		super(name, core, level);
+	}
+
+	public Player(Core core, Level level) {
+		this("player", core, level);
+	}
+
 	private static final long serialVersionUID = -3696970516358028607L;
+	private double health = 100;
 
 	/* (non-Javadoc)
 	 * @see com.eddie.rpeg.engine.entity.Killable#getHealth()
 	 */
 	@Override
 	public double getHealth() {
-		return 100;
+		return health;
 	}
 
 	/* (non-Javadoc)
@@ -28,6 +45,9 @@ public class Player extends SpaceCraft {
 	 */
 	@Override
 	public void hit(int damage) {
+		health -= damage;
+		if (health <= 0)
+			kill();
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +55,7 @@ public class Player extends SpaceCraft {
 	 */
 	@Override
 	public boolean canKill() {
-		return true;
+		return getHealth() > 0;
 	}
 
 	/* (non-Javadoc)
@@ -43,6 +63,8 @@ public class Player extends SpaceCraft {
 	 */
 	@Override
 	public void kill() {
+		//TODO Blow up
+		dispose();
 	}
 
 	/* (non-Javadoc)
@@ -58,9 +80,9 @@ public class Player extends SpaceCraft {
 	 */
 	@Override
 	public void onHit(Entity hit, double cx, double cy) {
-		if (hit instanceof Killable) {
-			((Killable)hit)
-		}
+		if (hit instanceof Killable)
+			((Killable)hit).hit(getDamage());
+		kill();
 	}
 
 	/* (non-Javadoc)
@@ -75,6 +97,8 @@ public class Player extends SpaceCraft {
 	 */
 	@Override
 	public void draw(Graphics g, BufferedImage screen) {
+		if (isVisable() && getImage() != null)
+			g.drawImage(getImage(), (int)(getDrawX()), (int)(getDrawY()), getImage().getWidth(), getImage().getHeight(), null);
 	}
 
 }
