@@ -104,8 +104,7 @@ public class Ticker {
 		@Override
 		public void run() {
 			while (run) {
-				@SuppressWarnings("unchecked")
-				ArrayList<TickData> temp = (ArrayList<TickData>)getTicks().clone();
+				TickData[] temp = ticks.toArray(new TickData[ticks.size()]);
 				synchronized (temp) {
 					for (TickData t : temp) {
 						if (t.getTick().inSeperateThread())
