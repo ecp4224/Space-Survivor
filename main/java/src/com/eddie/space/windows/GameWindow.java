@@ -7,12 +7,13 @@
 package com.eddie.space.windows;
 
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
-import com.eddie.rpeg.engine.entity.mover.KeyMover;
-import com.eddie.rpeg.engine.entity.mover.model.SimpleKeyMover;
 import com.eddie.rpeg.engine.render.gui.Window;
 import com.eddie.rpeg.engine.system.Core;
+import com.eddie.space.entities.Star;
 import com.eddie.space.entities.player.Player;
+import com.eddie.space.game.mover.SpeedKeyMover;
 import com.eddie.space.game.world.SpaceWorld;
 
 public class GameWindow extends Window {
@@ -31,7 +32,19 @@ public class GameWindow extends Window {
 	 */
 	@Override
 	public void tick() {
+		createStar();
+		createStar();
+		createStar();
+	}
+	
+	private void createStar() {
+		Star s = new Star(getSystem(), w, null);
+		s.setX(new Random().nextInt(getSystem().getMaxScreenX()));
+		s.setY(0);
+		Star.setSpeed(20.0);
+		s.setVisable(true);
 		
+		getObjectDrawer().addObject(s);
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +60,7 @@ public class GameWindow extends Window {
 	 */
 	@Override
 	public int getTimeout() {
-		return 100;
+		return 50;
 	}
 
 	/* (non-Javadoc)
@@ -94,7 +107,7 @@ public class GameWindow extends Window {
 		p.setX(50);
 		p.setY(50);
 		p.setVisable(true);
-		KeyMover move = new SimpleKeyMover(p, super.getSystem());
+		SpeedKeyMover move = new SpeedKeyMover(p, super.getSystem());
 		p.addMover(move);
 		getObjectDrawer().addObject(p);
 		move.attachMover(this);

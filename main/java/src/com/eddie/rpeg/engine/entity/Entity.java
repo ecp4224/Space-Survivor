@@ -321,6 +321,8 @@ public abstract class Entity implements Tick, Listener, Serializable{
 	 */
 	@Override
 	public void tick() {
+		if (animation == null)
+			return;
 		if (animation.isStopped())
 			return;
 		if (animation.hasNext()) {
@@ -358,6 +360,7 @@ public abstract class Entity implements Tick, Listener, Serializable{
 			return;
 		dispose = true;
 		getDrawerParent().removeObject(this);
+		system.getTicker().removeTick(this);
 		move.clear();
 	}
 
