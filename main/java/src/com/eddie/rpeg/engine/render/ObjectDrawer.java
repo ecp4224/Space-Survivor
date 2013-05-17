@@ -80,7 +80,7 @@ public class ObjectDrawer extends ArrayList<Entity> implements Listener {
 			object.setID(ID);
 		}
 		if (!contains(object)) {
-			System.out.println("Adding " + object.getName() + " @ X:" + object.getX() + " Y:" + object.getY() + " ID: " + object.getID());
+			//System.out.println("Adding " + object.getName() + " @ X:" + object.getX() + " Y:" + object.getY() + " ID: " + object.getID());
 			object.setDrawerParent(this);
 			add(object);
 		}
@@ -88,7 +88,7 @@ public class ObjectDrawer extends ArrayList<Entity> implements Listener {
 
 	public void removeObject(Entity object) {
 		if (contains(object)) {
-			System.out.println("Removing " + object.getName() + " @ X:" + object.getX() + " Y:" + object.getY() + " ID: " + object.getID());
+			//System.out.println("Removing " + object.getName() + " @ X:" + object.getX() + " Y:" + object.getY() + " ID: " + object.getID());
 			object.setDrawerParent(null);
 			object.dispose();
 			remove(object);
