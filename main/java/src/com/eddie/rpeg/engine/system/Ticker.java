@@ -107,6 +107,8 @@ public class Ticker {
 				TickData[] temp = ticks.toArray(new TickData[ticks.size()]);
 				synchronized (temp) {
 					for (TickData t : temp) {
+						if (t == null)
+							continue;
 						if (t.getTick().inSeperateThread())
 							continue;
 						if (t.getTick().getTimeout() <= t.getTime()) {

@@ -1,15 +1,11 @@
 package com.eddie.space.music.impl;
 
-import static java.lang.Math.log10;
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
 import static jouvieje.bass.Bass.BASS_ChannelPlay;
 import static jouvieje.bass.Bass.BASS_Init;
 import static jouvieje.bass.Bass.BASS_StreamCreateFile;
 import static jouvieje.bass.defines.BASS_SAMPLE.BASS_SAMPLE_FLOAT;
 import static jouvieje.bass.defines.BASS_STREAM.BASS_STREAM_PRESCAN;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -20,6 +16,7 @@ import jouvieje.bass.exceptions.BassException;
 import jouvieje.bass.structures.HSTREAM;
 import jouvieje.bass.utils.BufferUtils;
 
+import com.eddie.rpeg.engine.render.ObjectDrawer;
 import com.eddie.rpeg.engine.system.Core;
 import com.eddie.rpeg.engine.system.Tick;
 import com.eddie.space.events.OnBeat;
@@ -38,7 +35,8 @@ public class BASS_Player implements MediaPlayer, Tick {
     private double count;
     private double avg;
     private Core system;
-    public BASS_Player(Core system) { 
+    private ObjectDrawer draw;
+    public BASS_Player(Core system, ObjectDrawer drawer) { 
         try {
             BassInit.loadLibraries();
         } catch(BassException e) {
@@ -121,32 +119,8 @@ public class BASS_Player implements MediaPlayer, Tick {
         }
         oldnum = num;
         System.out.println("SPEED " + avg);
-        OnBeat event = new OnBeat(avg, num);
+        OnBeat event = new OnBeat(avg, num, draw);
         system.getEventSystem().callEvent(event);
-    }
-    
-    private float[] doSomething(FloatBuffer floats) {
-        int b0 = 0;
-        float[] ys = new float[8];
-        for(int x = 0; x < 8; x++) {
-            int b1 = (int)pow(2, x*10.0/(8-1));
-            if(b1 > 1023) {
-                b1 = 1023;
-            }
-            if(b1 <= b0) {
-                b1 = b0+1;      //Make sure it uses at least 1 FFT bin
-            }
-
-            int sc = 10+b1-b0;
-
-            float sum = 0;
-            for(; b0 < b1; b0++) {
-                sum += floats.get(1+b0);
-            }
-            ys[x] = (int)( (sqrt(sum/log10(sc))*1.7*system.getMaxScreenY())-4 );
-        }
-        
-        return ys;
     }
 
     @Override

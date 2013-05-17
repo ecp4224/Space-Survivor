@@ -3,7 +3,7 @@ package com.eddie.rpeg.engine.render.gui;
 import java.awt.Canvas;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-
+import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.ObjectDrawer;
@@ -35,6 +35,10 @@ public abstract class Window extends Canvas implements Tick, Listener, KeyListen
 	}
 	
 	public abstract void init();
+	
+	public void addEntity(Entity e) {
+		getObjectDrawer().addObject(e);
+	}
 	
 	public Level getLevel() {
 		return level;

@@ -10,19 +10,23 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Random;
 
+import com.eddie.rpeg.engine.events.EventHandler;
+import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.render.gui.Window;
 import com.eddie.rpeg.engine.system.Core;
-import com.eddie.space.entities.Star;
-import com.eddie.space.entities.player.Player;
-import com.eddie.space.game.mover.SpeedKeyMover;
+import com.eddie.space.entities.ships.PlayerShip;
+import com.eddie.space.entities.star.Star;
+import com.eddie.space.events.OnBeat;
+import com.eddie.space.game.mover.ShipKeyMover;
 import com.eddie.space.game.world.SpaceWorld;
 import com.eddie.space.music.MediaPlayer;
 import com.eddie.space.music.impl.BASS_Player;
 
-public class GameWindow extends Window {
+public class GameWindow extends Window implements Listener {
 	private static final long serialVersionUID = 2704165502672086720L;
 	private SpaceWorld w;
 	private MediaPlayer m;
+	private ShipKeyMover player_mover;
 
 	/**
 	 * @param system
@@ -44,7 +48,7 @@ public class GameWindow extends Window {
 	private void createStar() {
 	    if (m == null)
 	        return;
-		Star s = new Star(getSystem(), w);
+		Star s = new Star(getSystem(), w, this);
 		s.setX(new Random().nextInt(getSystem().getMaxScreenX()));
 		s.setY(0);
 		Star.setSpeed(20.0);
@@ -102,8 +106,9 @@ public class GameWindow extends Window {
 	public void init() {
 		getObjectDrawer().register(getSystem());
 		getObjectDrawer().layerEntities(false);
+		getSystem().getEventSystem().registerEvents(this);
 		w = new SpaceWorld(this);
-		m = new BASS_Player(getSystem());
+		m = new BASS_Player(getSystem(), getObjectDrawer());
 		
 		addPlayer();
 		try {
@@ -116,14 +121,19 @@ public class GameWindow extends Window {
 	}
 	
 	private void addPlayer() {
-		Player p = new Player(getSystem(), w);
-		p.setX(50);
-		p.setY(50);
+		PlayerShip p = new PlayerShip(getSystem(), w);
+		p.setY(getSystem().getMaxScreenY() - 100);
 		p.setVisable(true);
-		SpeedKeyMover move = new SpeedKeyMover(p, super.getSystem());
-		p.addMover(move);
+		player_mover = new ShipKeyMover(p, super.getSystem());
+		p.addMover(player_mover);
 		getObjectDrawer().addObject(p);
-		move.attachMover(this);
+		player_mover.attachMover(this);
+		p.setX(getSystem().getMaxScreenX() / 2 - 32);
+	}
+	
+	@EventHandler
+	public void onBeat(OnBeat beat) {
+		player_mover.setSpeed(beat.getSpeed() / 10);
 	}
 
 	/* (non-Javadoc)
