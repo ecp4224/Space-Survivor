@@ -12,7 +12,7 @@ import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.KeyMover;
 import com.eddie.rpeg.engine.entity.types.Pickupable;
 import com.eddie.rpeg.engine.render.animation.AnimationStyle;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public class SimpleKeyMover extends KeyMover {
 
@@ -20,7 +20,7 @@ public class SimpleKeyMover extends KeyMover {
 	 * @param parent
 	 * @param core
 	 */
-	public SimpleKeyMover(Entity parent, Core core) {
+	public SimpleKeyMover(Entity parent, RPEG core) {
 		super(parent, core);
 	}
 

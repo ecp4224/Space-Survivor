@@ -17,9 +17,10 @@ import jouvieje.bass.structures.HSTREAM;
 import jouvieje.bass.utils.BufferUtils;
 
 import com.eddie.rpeg.engine.render.ObjectDrawer;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.system.Tick;
 import com.eddie.space.events.OnBeat;
+import com.eddie.space.game.Game;
 import com.eddie.space.music.MediaPlayer;
 
 
@@ -34,9 +35,9 @@ public class BASS_Player implements MediaPlayer, Tick {
     private int all;
     private double count;
     private double avg;
-    private Core system;
+    private RPEG system;
     private ObjectDrawer draw;
-    public BASS_Player(Core system, ObjectDrawer drawer) { 
+    public BASS_Player(RPEG system, ObjectDrawer drawer) { 
         try {
             BassInit.loadLibraries();
         } catch(BassException e) {
@@ -88,16 +89,14 @@ public class BASS_Player implements MediaPlayer, Tick {
         
         //GETTING SONG SPEED
         float num = 0f;
-        //float[] speeds = doSomething(floats);
         for (int i = 0; i <= 15; i++)
             num += floats.get(i);
         num *= (13f/15f);
-        //num /= 2000f;
-        System.out.println("NUM " + num);
+        if (Game.DEBUG)
+            System.out.println("NUM " + num);
         double dis = (double)Math.abs(((double)oldnum - (double)num));
         dis *= 10000;
         speed = (dis / getTimeout());
-        //speed /= 3.0;
         if (highest == 0 || speed > highest) {
             highest = speed;
             all = 0;
@@ -118,7 +117,8 @@ public class BASS_Player implements MediaPlayer, Tick {
             lowest = 0;
         }
         oldnum = num;
-        System.out.println("SPEED " + avg);
+        if (Game.DEBUG)
+            System.out.println("SPEED " + avg);
         OnBeat event = new OnBeat(avg, num, draw);
         system.getEventSystem().callEvent(event);
     }

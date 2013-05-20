@@ -67,8 +67,9 @@ public class Ticker {
 	 *         The tick object to remove
 	 */
 	public synchronized void removeTick(Tick t) {
-		if (ticks.contains(findTick(t)))
+		if (ticks.contains(findTick(t))) {
 			ticks.remove(findTick(t));
+		}
 	}
 	
 	private TickData findTick(Tick t) {
@@ -85,6 +86,7 @@ public class Ticker {
 
 		@Override
 		public void run() {
+		    Thread.currentThread().setName(t.getTick().getClass().getCanonicalName() + " - Tick Service");
 			while (true) {
 				if (!getTicks().contains(t))
 					break;
@@ -103,6 +105,7 @@ public class Ticker {
 
 		@Override
 		public void run() {
+		    Thread.currentThread().setName("Synced - Tick Service");
 			while (run) {
 				TickData[] temp = ticks.toArray(new TickData[ticks.size()]);
 				synchronized (temp) {

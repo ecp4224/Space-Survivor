@@ -13,13 +13,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public class EventSystem {
 	
-	private Core server;
+	private RPEG server;
 	
-	public EventSystem(Core server) {
+	public EventSystem(RPEG server) {
 		this.server = server;
 	}
 	

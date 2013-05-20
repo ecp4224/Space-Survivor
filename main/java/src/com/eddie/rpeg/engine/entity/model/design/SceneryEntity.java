@@ -17,7 +17,7 @@ import com.eddie.rpeg.engine.entity.model.StaticEntity;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.animation.Animation;
 import com.eddie.rpeg.engine.render.animation.AnimationStyle;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public class SceneryEntity extends StaticEntity {
 	private static final long serialVersionUID = 1L;
@@ -29,7 +29,7 @@ public class SceneryEntity extends StaticEntity {
 	 * @param system
 	 * @param level
 	 */
-	public SceneryEntity(String name, Core system, Level level) {
+	public SceneryEntity(String name, RPEG system, Level level) {
 		super(name, system, level);
 		try {
 			setImage(ImageIO.read(new File("entities/" + name + "/image.png")));

@@ -8,7 +8,7 @@ package com.eddie.rpeg.engine.entity.mover.model;
 
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.CollisionMover;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public class SimpleCollisionMover extends CollisionMover {
 
@@ -16,7 +16,7 @@ public class SimpleCollisionMover extends CollisionMover {
 	 * @param parent
 	 * @param core
 	 */
-	public SimpleCollisionMover(Entity parent, Core core) {
+	public SimpleCollisionMover(Entity parent, RPEG core) {
 		super(parent, core);
 	}
 

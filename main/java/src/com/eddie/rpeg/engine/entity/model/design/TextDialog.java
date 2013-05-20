@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import com.eddie.rpeg.engine.entity.model.StaticEntity;
 import com.eddie.rpeg.engine.entity.types.Foreground;
 import com.eddie.rpeg.engine.render.gui.CustomString;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.level.Level;
 
 public class TextDialog extends StaticEntity implements Foreground {
@@ -25,7 +25,7 @@ public class TextDialog extends StaticEntity implements Foreground {
 	int timeout;
 	boolean speed;
 	
-	public TextDialog(Core system, Level level) {
+	public TextDialog(RPEG system, Level level) {
 		super("TEXT", system, level);
 		setX(0);
 		setY(0);

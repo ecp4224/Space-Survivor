@@ -26,7 +26,7 @@ import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.ObjectDrawer;
 import com.eddie.rpeg.engine.render.animation.Animation;
 import com.eddie.rpeg.engine.render.animation.AnimationStyle;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.system.Tick;
 
 public abstract class Entity implements Tick, Listener, Serializable{
@@ -43,12 +43,12 @@ public abstract class Entity implements Tick, Listener, Serializable{
 	protected boolean visible;
 	protected int aniwait = 50;
 	protected long ID = -1;
-	protected transient Core system;
+	protected transient RPEG system;
 	protected transient HashMap<String, BufferedImage> cache = new HashMap<String, BufferedImage>();
 	protected transient ObjectDrawer obj;
 	public boolean flipped;
 	
-	public Entity(String name, Core system, Level level, boolean load) {
+	public Entity(String name, RPEG system, Level level, boolean load) {
 		this.name = name;
 		this.system = system;
 		if (load) {
@@ -91,7 +91,7 @@ public abstract class Entity implements Tick, Listener, Serializable{
 		return ID;
 	}
 
-	public Entity(String name, Core system, Level level) {
+	public Entity(String name, RPEG system, Level level) {
 		this(name, system, level, true);
 	}
 	
@@ -258,15 +258,15 @@ public abstract class Entity implements Tick, Listener, Serializable{
 	}
 	
 	public double getDrawX() {
-		if (!Core.center_player)
+		if (!RPEG.center_player)
 			return getX();
-		return (getX() + Core.getCenterX(system)) - getWidth();
+		return (getX() + system.getCenterX()) - getWidth();
 	}
 	
 	public double getDrawY() {
-		if (!Core.center_player)
+		if (!RPEG.center_player)
 			return getY();
-		return (getY() + Core.getCenterY(system)) + getHeight();
+		return (getY() + system.getCenterY()) + getHeight();
 	}
 	
 	/**
@@ -376,7 +376,7 @@ public abstract class Entity implements Tick, Listener, Serializable{
 	/**
 	 * @param system2
 	 */
-	public void setSystem(Core system2) {
+	public void setSystem(RPEG system2) {
 		this.system = system2;
 	}
 	

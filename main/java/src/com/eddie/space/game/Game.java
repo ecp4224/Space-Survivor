@@ -7,18 +7,27 @@
 package com.eddie.space.game;
 
 import com.eddie.rpeg.engine.render.gui.Window;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.windows.GameWindow;
 
 public class Game {
 	
 	private static final Game GAME = new Game();
-	private final Core RPEG = new Core();
+	private final RPEG engine = new RPEG();
+	public static final boolean DEBUG = true;
+	/**
+	 * The difficulty of the game
+	 * .5 = HARD
+	 * 1 = NORMAL
+	 * 2 = EASY
+	 * 3 = TRAINING
+	 */
+	public static final double DIFFICULTY = 1;
 	private void startGame() {
-		Core.center_player = false;
-		RPEG.init(800, 600);
-		Window w = new GameWindow(RPEG);
-		RPEG.setWindow(w);
+		RPEG.center_player = false;
+		engine.init(800, 600);
+		Window w = new GameWindow(engine);
+		engine.setWindow(w);
 	}
 	
 	

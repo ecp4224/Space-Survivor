@@ -13,10 +13,11 @@ import java.util.Random;
 import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.render.gui.Window;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.ships.PlayerShip;
 import com.eddie.space.entities.star.Star;
 import com.eddie.space.events.OnBeat;
+import com.eddie.space.game.Game;
 import com.eddie.space.game.mover.ShipKeyMover;
 import com.eddie.space.game.world.SpaceWorld;
 import com.eddie.space.music.MediaPlayer;
@@ -31,7 +32,7 @@ public class GameWindow extends Window implements Listener {
 	/**
 	 * @param system
 	 */
-	public GameWindow(Core system) {
+	public GameWindow(RPEG system) {
 		super(system);
 	}
 
@@ -133,7 +134,7 @@ public class GameWindow extends Window implements Listener {
 	
 	@EventHandler
 	public void onBeat(OnBeat beat) {
-		player_mover.setSpeed(beat.getSpeed() / 10);
+		player_mover.setSpeed(beat.getSpeed() / (Game.DIFFICULTY * 10));
 	}
 
 	/* (non-Javadoc)

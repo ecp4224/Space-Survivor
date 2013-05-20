@@ -3,12 +3,12 @@ package com.eddie.rpeg.engine.entity.mover;
 import java.util.ArrayList;
 
 import com.eddie.rpeg.engine.entity.Entity;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.system.UtilMath;
 
 public abstract class CollisionMover extends Mover {
 	public ArrayList<Entity> ignore = new ArrayList<Entity>();
-	public CollisionMover(Entity parent, Core core) {
+	public CollisionMover(Entity parent, RPEG core) {
 		super(parent, core, "CollisionMover");
 	}
 

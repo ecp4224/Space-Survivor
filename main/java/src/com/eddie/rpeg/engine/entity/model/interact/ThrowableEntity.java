@@ -15,7 +15,7 @@ import com.eddie.rpeg.engine.entity.types.Damager;
 import com.eddie.rpeg.engine.entity.types.Smart;
 import com.eddie.rpeg.engine.entity.types.Throwable;
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public abstract class ThrowableEntity extends Entity implements Throwable, Damager {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +28,7 @@ public abstract class ThrowableEntity extends Entity implements Throwable, Damag
 	 * @param name
 	 * @param system
 	 */
-	public ThrowableEntity(String name, Core system, Level level) {
+	public ThrowableEntity(String name, RPEG system, Level level) {
 		super(name, system, level);
 	}
 

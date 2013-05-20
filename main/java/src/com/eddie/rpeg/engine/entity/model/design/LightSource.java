@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.types.Foreground;
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public class LightSource extends Entity implements Foreground {
 	private static final long serialVersionUID = 1L;
@@ -24,7 +24,7 @@ public class LightSource extends Entity implements Foreground {
     private BufferedImage light_cache;
     private BufferedImage screen_cache;
 
-	public LightSource(Core system, Level level) {
+	public LightSource(RPEG system, Level level) {
         super("light", system, level);
     }
 

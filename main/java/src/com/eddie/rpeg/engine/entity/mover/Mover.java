@@ -7,27 +7,27 @@
 package com.eddie.rpeg.engine.entity.mover;
 
 import com.eddie.rpeg.engine.entity.Entity;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.system.Tick;
 
 public abstract class Mover implements Tick {
 	
 	private Entity parent;
 	
-	private Core core;
+	private RPEG core;
 	
 	protected String name;
 	
 	protected boolean suspend;
 	
-	public Mover(Entity parent, Core core, String name) {
+	public Mover(Entity parent, RPEG core, String name) {
 		this.parent = parent;
 		this.core = core;
 		this.name = name;
 		core.getTicker().addTick(this);
 	}
 	
-	public Mover(Core core) {
+	public Mover(RPEG core) {
 		this(null, core, "Mover");
 	}
 	
@@ -43,7 +43,7 @@ public abstract class Mover implements Tick {
 		return (name == null ? getClass().getSimpleName() : name);
 	}
 	
-	public Core getCore() {
+	public RPEG getCore() {
 		return core;
 	}
 	

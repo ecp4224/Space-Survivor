@@ -13,7 +13,7 @@ import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.SpaceCraft;
 import com.eddie.space.events.OnBeat;
 
@@ -24,11 +24,11 @@ public class PlayerShip extends SpaceCraft {
 	 * @param core
 	 * @param level
 	 */
-	public PlayerShip(String name, Core core, Level level) {
+	public PlayerShip(String name, RPEG core, Level level) {
 		super(name, core, level);
 	}
 
-	public PlayerShip(Core core, Level level) {
+	public PlayerShip(RPEG core, Level level) {
 		this("player", core, level);
 		core.getEventSystem().registerEvents(this);
 	}

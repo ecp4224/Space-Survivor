@@ -13,19 +13,19 @@ import com.eddie.rpeg.engine.entity.model.StaticEntity;
 import com.eddie.rpeg.engine.entity.mover.KeyMover;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.gui.Window;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
+/**
+ * Represents an entity that moves the relative point of the world.
+ * Setting the X and Y of this entity will also set the {@link RPEG#CENTER_X} and {@link RPEG#CENTER_Y}
+ * variables and thus causing the cameria to move.
+ */
 public class FrameMover extends StaticEntity {
 	private static final long serialVersionUID = -982486138992646201L;
 	private transient KeyMover move;
 	
-	public FrameMover(Core system, Window w, Level l) {
+	public FrameMover(RPEG system, Window w, Level l) {
 		super("FrameMover", system, l);
-		move = new SimpleKeyMover(this, system);
-		addMover(move);
-		move.attachMover(w);
-		setX(0);
-		setY(0);
 	}
 	
 	public FrameMover() {
@@ -44,27 +44,27 @@ public class FrameMover extends StaticEntity {
 	@Override
 	public void setX(double x) {
 		if (x < 0)
-			Core.CENTER_X = 0;
+		    system.CENTER_X = 0;
 		else
-			Core.CENTER_X = x;
+		    system.CENTER_X = x;
 	}
 	
 	@Override
 	public void setY(double y) {
 		if (y < 0)
-			Core.CENTER_Y = 0;
+		    system.CENTER_Y = 0;
 		else
-			Core.CENTER_X = y;
+		    system.CENTER_X = y;
 	}
 	
 	@Override
 	public double getX() {
-		return Core.CENTER_X;
+		return system.CENTER_X;
 	}
 	
 	@Override
 	public double getY() {
-		return Core.CENTER_Y;
+		return system.CENTER_Y;
 	}
 
 	/* (non-Javadoc)

@@ -16,14 +16,14 @@ import com.eddie.rpeg.engine.entity.types.Damager;
 import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.entity.types.Smart;
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public abstract class SpaceCraft extends Entity implements Killable, Damager, Smart {
 	private static final long serialVersionUID = 5982525011317556405L;
 	protected int rot;
 	private AffineTransformOp op;
 	
-	public SpaceCraft(String name, Core core, Level level) {
+	public SpaceCraft(String name, RPEG core, Level level) {
 		super(name, core, level);
 		setRotation(0);
 	}

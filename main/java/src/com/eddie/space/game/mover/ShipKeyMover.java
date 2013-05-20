@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.model.SimpleKeyMover;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public class ShipKeyMover extends SimpleKeyMover {
 	protected double speed = 1.5;
@@ -19,7 +19,7 @@ public class ShipKeyMover extends SimpleKeyMover {
 	 * @param parent
 	 * @param core
 	 */
-	public ShipKeyMover(Entity parent, Core core) {
+	public ShipKeyMover(Entity parent, RPEG core) {
 		super(parent, core);
 	}
 	

@@ -8,13 +8,13 @@ import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.ObjectDrawer;
 import com.eddie.rpeg.engine.render.Render;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.system.Tick;
 
 public abstract class Window extends Canvas implements Tick, Listener, KeyListener {
 	private static final long serialVersionUID = -8891174773885679995L;
 
-	private Core system;
+	private RPEG system;
 	
 	protected Level level;
 	
@@ -22,7 +22,7 @@ public abstract class Window extends Canvas implements Tick, Listener, KeyListen
 	
 	private Render render;
 	
-	public Window(Core system) {
+	public Window(RPEG system) {
 		this.system = system;
 		this.system.getEventSystem().registerEvents(this);
 		render = new Render(this);
@@ -54,7 +54,7 @@ public abstract class Window extends Canvas implements Tick, Listener, KeyListen
 	
 	public abstract String getName();
 	
-	public Core getSystem() {
+	public RPEG getSystem() {
 		return system;
 	}
 

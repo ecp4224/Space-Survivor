@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.gui.Window;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public class Star extends Entity {
     private static final long serialVersionUID = -7584479734207900386L;
@@ -23,7 +23,7 @@ public class Star extends Entity {
     private static StarManager manager;
     private static Window window;
 
-    public Star(Core system, Level level, Window w) {
+    public Star(RPEG system, Level level, Window w) {
         super("Star", system, level, false);
         if (window == null)
         	Star.window = w;

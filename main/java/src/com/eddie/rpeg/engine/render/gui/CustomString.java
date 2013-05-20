@@ -7,14 +7,14 @@
 package com.eddie.rpeg.engine.render.gui;
 
 import java.awt.Font;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public final class CustomString {
 	private String line;
-	private Font font = Core.DEFAULT_FONT;
+	private Font font = RPEG.DEFAULT_FONT;
 	private boolean bold;
 	private boolean italic;
-	public static final String DEFAULT_FONT = Core.DEFAULT_FONT_NAME;
+	public static final String DEFAULT_FONT = RPEG.DEFAULT_FONT_NAME;
 	
 	public CustomString(String line) { this.line = line; }
 	
@@ -84,7 +84,7 @@ public final class CustomString {
 	
 	public Font getFont() {
 		if (font == null)
-			font = Core.DEFAULT_FONT;
+			font = RPEG.DEFAULT_FONT;
 		return font;
 	}
 	

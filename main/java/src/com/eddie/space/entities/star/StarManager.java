@@ -8,8 +8,9 @@ import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.gui.Window;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.events.OnBeat;
+import com.eddie.space.game.Game;
 
 
 public class StarManager implements Listener {
@@ -17,12 +18,12 @@ public class StarManager implements Listener {
     private int oldavg;
     private int wait;
     private List<Star> stars = new ArrayList<Star>();
-    private Core system;
+    private RPEG system;
     private Level world;
     private Window window;
     private static final Random random = new Random();
     
-    public StarManager(Core system, Level world, Window window) {
+    public StarManager(RPEG system, Level world, Window window) {
         this.system = system;
         this.world = world;
         system.getEventSystem().registerEvents(this);
@@ -35,13 +36,14 @@ public class StarManager implements Listener {
     }
     
     private void moveStars() {
-        System.out.println("AVG " + avg);
-        int plus = (int) avg;
+        double plus = avg / Game.DIFFICULTY;
+        if (Game.DEBUG)
+            System.out.println("SHIP SPEED " + plus);
         if (plus == 0)
             plus = 2;
         Star[] stars = this.stars.toArray(new Star[this.stars.size()]);
         for (Star s : stars) {
-            s.move(plus);
+            s.move((int)plus);
             if (s.getY() - 10 >= system.getMaxScreenY())
                 removeStar(s);
         }

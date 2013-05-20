@@ -10,7 +10,7 @@ import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.Mover;
 import com.eddie.rpeg.engine.entity.types.Pickupable;
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public abstract class PickupableEntity extends ThrowableEntity implements Pickupable {
 	private static final long serialVersionUID = 212391759553154172L;
@@ -21,7 +21,7 @@ public abstract class PickupableEntity extends ThrowableEntity implements Pickup
 	 * @param system
 	 * @param level
 	 */
-	public PickupableEntity(String name, Core system, Level level) {
+	public PickupableEntity(String name, RPEG system, Level level) {
 		super(name, system, level);
 	}
 

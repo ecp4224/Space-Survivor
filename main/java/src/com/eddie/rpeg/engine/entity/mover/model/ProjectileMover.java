@@ -10,7 +10,7 @@ import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.model.interact.ThrowableEntity;
 import com.eddie.rpeg.engine.entity.mover.CollisionMover;
 import com.eddie.rpeg.engine.entity.mover.Mover;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.system.UtilMath;
 
 public class ProjectileMover extends Mover {
@@ -36,7 +36,7 @@ public class ProjectileMover extends Mover {
 	 * @param core
 	 * @param name
 	 */
-	public ProjectileMover(Entity parent, Core core) {
+	public ProjectileMover(Entity parent, RPEG core) {
 		super(parent, core, "ProjectileMover");
 	}
 

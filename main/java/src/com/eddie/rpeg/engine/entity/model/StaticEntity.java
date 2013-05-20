@@ -7,7 +7,7 @@
 package com.eddie.rpeg.engine.entity.model;
 
 import com.eddie.rpeg.engine.entity.Entity;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.level.Level;
 
 public abstract class StaticEntity extends Entity {
@@ -19,7 +19,7 @@ public abstract class StaticEntity extends Entity {
 	 * @param level
 	 * @param load
 	 */
-	public StaticEntity(String name, Core system, Level level) {
+	public StaticEntity(String name, RPEG system, Level level) {
 		super(name, system, level, false);
 	}
 

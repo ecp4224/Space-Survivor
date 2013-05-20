@@ -11,7 +11,7 @@ import java.awt.event.KeyListener;
 
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.render.gui.Window;
-import com.eddie.rpeg.engine.system.Core;
+import com.eddie.rpeg.engine.system.RPEG;
 
 public abstract class KeyMover extends Mover implements KeyListener {
 	private Window window;
@@ -21,7 +21,7 @@ public abstract class KeyMover extends Mover implements KeyListener {
 	/**
 	 * @param parent
 	 */
-	public KeyMover(Entity parent, Core core) {
+	public KeyMover(Entity parent, RPEG core) {
 		super(parent, core, "KeyMover");
 	}
 	
