@@ -111,7 +111,8 @@ public class Animation {
 		current = 0;
 		reset = true;
 		super.notify();
-		c_callback.onAnimationCompleted(style);
+		if (c_callback != null)
+			c_callback.onAnimationCompleted(style);
 	}
 	public BufferedImage next() {
 		BufferedImage img = getCurrentImage();

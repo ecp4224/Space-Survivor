@@ -10,13 +10,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.render.animation.AnimationStyle;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.Bullet;
 
 public class Player_Level1 extends Bullet {
-	
-	private static final int SPEED = 20;
 
 	/**
 	 * @param name
@@ -42,16 +39,6 @@ public class Player_Level1 extends Bullet {
 	public void draw(Graphics g, BufferedImage screen) {
 		if (isVisable() && getImage() != null)
 			g.drawImage(getImage(), (int)(getDrawX()), (int)(getDrawY()), getImage().getWidth(), getImage().getHeight(), null);
-	}
-	
-	@Override
-	public void tick() {
-		super.tick();
-		if (isVisable() && getAnimation().getStyle() != AnimationStyle.DEATH) {
-			setY(getY() - SPEED);
-			if (getY() <= 0)
-				dispose();
-		}
 	}
 
 }
