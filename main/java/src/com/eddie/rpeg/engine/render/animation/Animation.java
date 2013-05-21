@@ -15,6 +15,7 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 
 import com.eddie.rpeg.engine.entity.Entity;
+import com.eddie.rpeg.engine.render.animation.AnimationCallback.OnAnimationCompleted;
 
 public class Animation {
 	protected BufferedImage[] walking;
@@ -25,6 +26,7 @@ public class Animation {
 	protected BufferedImage[] melee;
 	protected BufferedImage[] idle;
 	protected BufferedImage[] trip;
+	protected OnAnimationCompleted c_callback;
 	protected BufferedImage[] temp;
 	protected BufferedImage[] falling;
 	protected Hashtable<BufferedImage, BufferedImage> cache = new Hashtable<BufferedImage, BufferedImage>();
@@ -49,6 +51,9 @@ public class Animation {
 		if (temp == null || current >= temp.length)
 			return;
 		temp[frame] = image;
+	}
+	public void setOnAnimationCompletedCallback(OnAnimationCompleted callback) {
+		this.c_callback = callback;
 	}
 	public void setCurrentImage(BufferedImage image) {
 		if (temp == null || current >= temp.length)
@@ -106,6 +111,7 @@ public class Animation {
 		current = 0;
 		reset = true;
 		super.notify();
+		c_callback.onAnimationCompleted(style);
 	}
 	public BufferedImage next() {
 		BufferedImage img = getCurrentImage();
@@ -292,6 +298,19 @@ public class Animation {
 	 */
 	public void stop() {
 		isStopped = true;
+	}
+	
+	public void dispose() {
+		falling = null;
+		trip = null;
+		victory = null;
+		shooting = null;
+		melee = null;
+		walking = null;
+		idle = null;
+		death = null;
+		jumping = null;
+		cache.clear();
 	}
 
 }

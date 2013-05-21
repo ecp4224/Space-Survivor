@@ -14,6 +14,7 @@ import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.render.gui.Window;
 import com.eddie.rpeg.engine.system.RPEG;
+import com.eddie.space.entities.bullets.Player_Level1;
 import com.eddie.space.entities.ships.PlayerShip;
 import com.eddie.space.entities.star.Star;
 import com.eddie.space.events.OnBeat;
@@ -130,6 +131,7 @@ public class GameWindow extends Window implements Listener {
 		getObjectDrawer().addObject(p);
 		player_mover.attachMover(this);
 		p.setX(getSystem().getMaxScreenX() / 2 - 32);
+		p.setBulletType(Player_Level1.class);
 	}
 	
 	@EventHandler

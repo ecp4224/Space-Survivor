@@ -127,6 +127,8 @@ public abstract class Entity implements Tick, Listener, Serializable{
 	}
 	
 	public int getWidth() {
+		if (getImage() == null)
+			return 0;
 		return getImage().getWidth();
 	}
 	
@@ -359,6 +361,11 @@ public abstract class Entity implements Tick, Listener, Serializable{
 		if (dispose)
 			return;
 		dispose = true;
+		if (animation != null) {
+			animation.stop();
+			animation.dispose();
+			animation = null;
+		}
 		getDrawerParent().removeObject(this);
 		system.getTicker().removeTick(this);
 		move.clear();

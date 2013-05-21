@@ -115,4 +115,20 @@ public class PlayerShip extends SpaceCraft {
 		yadd = beat.getBeat() * 10;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.eddie.space.entities.SpaceCraft#getBulletXOffset()
+	 */
+	@Override
+	public int getBulletXOffset() {
+		return 8;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.eddie.space.entities.SpaceCraft#getBulletYOffset()
+	 */
+	@Override
+	public int getBulletYOffset() {
+		return 4;
+	}
+
 }
