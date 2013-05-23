@@ -53,7 +53,7 @@ public class PlayerShip extends SpaceCraft {
 
 				@Override
 				public int getBindKey() {
-					return KeyEvent.VK_V;
+					return KeyEvent.VK_SPACE;
 				}
 				
 			}

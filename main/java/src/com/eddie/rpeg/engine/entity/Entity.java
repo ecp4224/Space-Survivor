@@ -29,6 +29,15 @@ import com.eddie.rpeg.engine.render.animation.AnimationStyle;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.system.Tick;
 
+/**
+ * An entity is any object that is drawn on the screen. This object implements a tick
+ * for animations, but can be overriden to provide other functionality, just be sure to call
+ * the super.
+ * 
+ * The draw method is called whenever the render system requests that this object be drawn to the screen.
+ * This method should only draw and not do any calculations. Any calculation should be done inside a seperate thread
+ * or in a tick.
+ */
 public abstract class Entity implements Tick, Listener, Serializable{
 	private static final long serialVersionUID = 3148455923653939525L;
 	protected transient ArrayList<Mover> move = new ArrayList<Mover>();
