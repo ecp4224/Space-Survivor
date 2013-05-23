@@ -14,6 +14,7 @@ import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.Bullet;
 
 public class Player_Level1 extends Bullet {
+	private static final long serialVersionUID = 5278199183053091282L;
 
 	/**
 	 * @param name

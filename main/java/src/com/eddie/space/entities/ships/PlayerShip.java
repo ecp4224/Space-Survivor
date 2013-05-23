@@ -120,7 +120,7 @@ public class PlayerShip extends SpaceCraft {
 	 */
 	@Override
 	public int getBulletXOffset() {
-		return 8;
+		return -8;
 	}
 
 	/* (non-Javadoc)

@@ -35,7 +35,13 @@ public abstract class RotatableEntity extends Entity {
 			throw new InvalidParameterException("The rotation must be between 0 and 360!");
 		this.rot = rotation;
 		double rotationRequired = Math.toRadians(rot);
-		AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, super.getImage().getWidth() / 2, super.getImage().getHeight() / 2);
+		double w = super.getImage().getWidth() / 2;
+		if (w <= 0)
+			w = super.getImage().getWidth() * 2;
+		double h = super.getImage().getHeight() / 2;
+		if (h <= 0)
+			h = super.getImage().getHeight() * 2;
+		AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, w, h);
 		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 	}
 	

@@ -14,7 +14,7 @@ public class Game {
 	
 	private static final Game GAME = new Game();
 	private final RPEG engine = new RPEG();
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	/**
 	 * The difficulty of the game
 	 * .5 = HARD

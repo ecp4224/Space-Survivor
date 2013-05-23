@@ -16,6 +16,8 @@ import com.eddie.space.entities.bullets.BulletManager;
 
 public abstract class Bullet extends RotatableEntity implements Damager {
 	private static final long serialVersionUID = -3436725886675567328L;
+	protected int yadd;
+	protected double xadd;
 	
 	public Bullet(String name, Level l, RPEG core) {
 		super(name, core, l);
@@ -35,10 +37,22 @@ public abstract class Bullet extends RotatableEntity implements Damager {
 	public void tick() {
 		super.tick();
 		if (isVisable() && getAnimation().getStyle() != AnimationStyle.DEATH) {
-			setY(getY() - BulletManager.getSpeed());
+			setX(getX() + xadd);
+			setY((getY() - (BulletManager.getSpeed() * yadd)));
 			if (getY() <= 0)
 				dispose();
 		}
+	}
+	
+	public void setXAdd(double d) {
+		this.xadd = d;
+	}
+	
+	public void goingUp(boolean up) {
+		if (up)
+			yadd = 1;
+		else
+			yadd = -1;
 	}
 	
 	private final OnAnimationCompleted ANIFINISH = new OnAnimationCompleted() {

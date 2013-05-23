@@ -32,22 +32,37 @@ public abstract class SpaceCraft extends RotatableEntity implements Killable, Da
 	public void fire() {
 		if (!BulletManager.initRan())
 			BulletManager.init(system);
+		if (getRotation() + 10 >= 360)
+			setRotation(0);
+		else
+			setRotation(getRotation() + 10);
 		try {
 			Constructor<? extends Bullet> construct = bullet_type.getConstructor(Level.class, RPEG.class);
 			Bullet b = construct.newInstance(getLevel(), system);
 			CollisionMover cm = new SimpleCollisionMover(b, system);
 			cm.ignoreEntity(this);
-			b.setX(getX() + getBulletXOffset());
-			b.setY(getY() + getBulletYOffset());
-			b.setVisable(true);
+			double bx = getX() + (getImage().getWidth() / 2);
+			double by = getY() + (getImage().getHeight() / 2);
+			b.setX(bx + getBulletXOffset());
+			b.setY(by + getBulletYOffset());
 			b.setRotation(getRotation());
+			b.goingUp(getRotation() < 90 || getRotation() > 270);
+			double xx;
+			if (getRotation() < 90 || getRotation() > 270) {
+				xx = getImage().getHeight() / 2 * Math.tan(Math.toRadians(getRotation()));
+			} else {
+				xx = getImage().getHeight() / 2 * Math.tan(Math.toRadians(getRotation()));
+				xx *= -1;
+			}
+			b.setXAdd(xx);
+			b.setVisable(true);
 			getDrawerParent().addObject(b);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public abstract int getBulletXOffset();
+	public abstract int getBulletXOffset(); 
 	
 	public abstract int getBulletYOffset();
 }
