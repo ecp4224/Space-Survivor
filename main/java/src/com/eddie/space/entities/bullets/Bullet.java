@@ -4,7 +4,7 @@
  * Purpose: <INSERT PURPOSE>
  * File name: Bullet.java
  */
-package com.eddie.space.entities;
+package com.eddie.space.entities.bullets;
 
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.types.Damager;
@@ -12,7 +12,7 @@ import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.animation.AnimationCallback.OnAnimationCompleted;
 import com.eddie.rpeg.engine.render.animation.AnimationStyle;
 import com.eddie.rpeg.engine.system.RPEG;
-import com.eddie.space.entities.bullets.BulletManager;
+import com.eddie.space.entities.RotatableEntity;
 
 public abstract class Bullet extends RotatableEntity implements Damager {
 	private static final long serialVersionUID = -3436725886675567328L;

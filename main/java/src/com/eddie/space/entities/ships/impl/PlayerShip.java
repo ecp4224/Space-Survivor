@@ -4,7 +4,7 @@
  * Purpose: <INSERT PURPOSE>
  * File name: Player.java
  */
-package com.eddie.space.entities.ships;
+package com.eddie.space.entities.ships.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -14,10 +14,50 @@ import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.system.RPEG;
-import com.eddie.space.entities.SpaceCraft;
+import com.eddie.space.entities.ships.Gun;
+import com.eddie.space.entities.ships.SpaceCraft;
 import com.eddie.space.events.OnBeat;
+import java.awt.event.KeyEvent;
 
 public class PlayerShip extends SpaceCraft {
+	private final Gun[] guns = new Gun[] {
+			new Gun() {
+
+				@Override
+				public int getXOffset() {
+					return -8;
+				}
+
+				@Override
+				public int getYOffset() {
+					return 4;
+				}
+
+				@Override
+				public int getBindKey() {
+					return KeyEvent.VK_SPACE;
+				}
+				
+			},
+			new Gun() {
+
+				@Override
+				public int getXOffset() {
+					return 8;
+				}
+
+				@Override
+				public int getYOffset() {
+					return 4;
+				}
+
+				@Override
+				public int getBindKey() {
+					return KeyEvent.VK_V;
+				}
+				
+			}
+	};
 	private double yadd;
 	/**
 	 * @param name
@@ -116,19 +156,13 @@ public class PlayerShip extends SpaceCraft {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.eddie.space.entities.SpaceCraft#getBulletXOffset()
+	 * @see com.eddie.space.entities.ships.SpaceCraft#getGuns()
 	 */
 	@Override
-	public int getBulletXOffset() {
-		return -8;
+	public Gun[] getGuns() {
+		return guns;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.eddie.space.entities.SpaceCraft#getBulletYOffset()
-	 */
-	@Override
-	public int getBulletYOffset() {
-		return 4;
-	}
+	
 
 }

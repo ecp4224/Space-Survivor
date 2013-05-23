@@ -7,15 +7,18 @@
 package com.eddie.space.game.mover;
 
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.model.SimpleKeyMover;
 import com.eddie.rpeg.engine.system.RPEG;
-import com.eddie.space.entities.SpaceCraft;
+import com.eddie.space.entities.ships.Gun;
+import com.eddie.space.entities.ships.SpaceCraft;
 
 public class ShipKeyMover extends SimpleKeyMover {
 	protected double speed = 1.5;
-	protected boolean fired = false;
+	protected Map<Integer, Boolean> bind_keys = new HashMap<Integer, Boolean>();
 	
 	/**
 	 * @param parent
@@ -23,6 +26,13 @@ public class ShipKeyMover extends SimpleKeyMover {
 	 */
 	public ShipKeyMover(Entity parent, RPEG core) {
 		super(parent, core);
+		if (parent instanceof SpaceCraft) {
+			SpaceCraft sc = (SpaceCraft)parent;
+			for (Gun g : sc.getGuns()) {
+				if (!bind_keys.containsKey(g.getBindKey()))
+					bind_keys.put(g.getBindKey(), false);
+			}
+		}
 	}
 	
 	public double getSpeed() {
@@ -39,19 +49,21 @@ public class ShipKeyMover extends SimpleKeyMover {
 			getParent().setX(getParent().getX() - speed);
 		if (isKeyPressed(KeyEvent.VK_D))
 			getParent().setX(getParent().getX() + speed);
-		if (isKeyPressed(KeyEvent.VK_SPACE) && !fired) {
-			if (getParent() instanceof SpaceCraft) {
+		for (int i : bind_keys.keySet()) {
+			if (isKeyPressed(i) && !bind_keys.get(i)) {
 				SpaceCraft sc = (SpaceCraft)getParent();
-				sc.fire();
-				fired = true;
+				sc.fire(i);
+				bind_keys.put(i, true);
 			}
 		}
 	}
 	
 	@Override
 	public void keyReleased(int key) {
-		if (key == KeyEvent.VK_SPACE)
-			fired = false;
+		for (int i : bind_keys.keySet()) {
+			if (key == i)
+				bind_keys.put(key, false);
+		}
 	}
 
 }

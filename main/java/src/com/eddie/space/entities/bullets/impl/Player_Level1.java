@@ -4,14 +4,14 @@
  * Purpose: <INSERT PURPOSE>
  * File name: Player_Level1.java
  */
-package com.eddie.space.entities.bullets;
+package com.eddie.space.entities.bullets.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.system.RPEG;
-import com.eddie.space.entities.Bullet;
+import com.eddie.space.entities.bullets.Bullet;
 
 public class Player_Level1 extends Bullet {
 	private static final long serialVersionUID = 5278199183053091282L;
