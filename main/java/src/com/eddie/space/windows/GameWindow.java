@@ -16,6 +16,7 @@ import com.eddie.rpeg.engine.render.gui.Window;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.bullets.impl.Player_Level1;
 import com.eddie.space.entities.ships.impl.PlayerShip;
+import com.eddie.space.entities.ships.impl.enemy.Enemy1;
 import com.eddie.space.entities.star.Star;
 import com.eddie.space.events.OnBeat;
 import com.eddie.space.game.Game;
@@ -54,7 +55,7 @@ public class GameWindow extends Window implements Listener {
 		s.setX(new Random().nextInt(getSystem().getMaxScreenX()));
 		s.setY(0);
 		Star.setSpeed(20.0);
-		s.setVisable(true);
+		s.setVisible(true);
 		
 		getObjectDrawer().addObject(s);
 	}
@@ -119,17 +120,27 @@ public class GameWindow extends Window implements Listener {
         catch (IOException e) {
             e.printStackTrace();
         }
+		addRandomEnemy();
 		
 	}
 	
 	private void addPlayer() {
 		PlayerShip p = new PlayerShip(getSystem(), w);
 		p.setY(getSystem().getMaxScreenY() - 100);
-		p.setVisable(true);
+		p.setVisible(true);
 		player_mover = new ShipKeyMover(p, super.getSystem());
 		p.addMover(player_mover);
 		getObjectDrawer().addObject(p);
 		player_mover.attachMover(this);
+		p.setX(getSystem().getMaxScreenX() / 2 - 32);
+		p.setBulletType(Player_Level1.class);
+	}
+	
+	private void addRandomEnemy() {
+		Enemy1 p = new Enemy1(getSystem(), w);
+		p.setY(100);
+		p.setVisible(true);
+		getObjectDrawer().addObject(p);
 		p.setX(getSystem().getMaxScreenX() / 2 - 32);
 		p.setBulletType(Player_Level1.class);
 	}

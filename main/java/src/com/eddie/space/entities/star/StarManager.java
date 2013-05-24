@@ -65,7 +65,7 @@ public class StarManager implements Listener {
 		s.setX(new Random().nextInt(system.getMaxScreenX()));
 		s.setY(0);
 		Star.setSpeed(20.0);
-		s.setVisable(true);
+		s.setVisible(true);
 		
 		window.addEntity(s);
 		addStar(s);

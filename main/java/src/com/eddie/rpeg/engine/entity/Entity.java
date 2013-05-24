@@ -21,7 +21,6 @@ import javax.imageio.ImageIO;
 
 import com.eddie.rpeg.engine.entity.mover.Mover;
 import com.eddie.rpeg.engine.entity.types.Pickupable;
-import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.ObjectDrawer;
 import com.eddie.rpeg.engine.render.animation.Animation;
@@ -38,7 +37,7 @@ import com.eddie.rpeg.engine.system.Tick;
  * This method should only draw and not do any calculations. Any calculation should be done inside a seperate thread
  * or in a tick.
  */
-public abstract class Entity implements Tick, Listener, Serializable{
+public abstract class Entity implements Tick, Serializable{
 	private static final long serialVersionUID = 3148455923653939525L;
 	protected transient ArrayList<Mover> move = new ArrayList<Mover>();
 	protected String name;
@@ -55,12 +54,29 @@ public abstract class Entity implements Tick, Listener, Serializable{
 	protected transient RPEG system;
 	protected transient HashMap<String, BufferedImage> cache = new HashMap<String, BufferedImage>();
 	protected transient ObjectDrawer obj;
+	protected boolean hasAnimation;
 	public boolean flipped;
 	
 	public Entity(String name, RPEG system, Level level, boolean load) {
 		this.name = name;
 		this.system = system;
-		if (load) {
+		this.hasAnimation = load;
+		loadAnimation();
+		this.system.getTicker().addTick(this);
+		this.visible = false;
+		this.level = level;
+	}
+	
+	public void setHasAnimation(boolean has) {
+		this.hasAnimation = has;
+	}
+	
+	public boolean hasAnimation() {
+		return hasAnimation;
+	}
+	
+	public void loadAnimation() {
+		if (hasAnimation) {
 			animation = new Animation(this);
 			try {
 				animation.load();
@@ -69,10 +85,6 @@ public abstract class Entity implements Tick, Listener, Serializable{
 			}
 			animation.setAnimation(AnimationStyle.IDLE);
 		}
-		this.system.getTicker().addTick(this);
-		system.getEventSystem().registerEvents(this);
-		this.visible = false;
-		this.level = level;
 	}
 	
 	
@@ -182,11 +194,11 @@ public abstract class Entity implements Tick, Listener, Serializable{
 	}
 
 
-	public boolean isVisable() {
+	public boolean isVisible() {
 		return visible;
 	}
 
-	public void setVisable(boolean visable) {
+	public void setVisible(boolean visable) {
 		this.visible = visable;
 	}
 

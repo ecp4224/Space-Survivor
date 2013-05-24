@@ -112,7 +112,7 @@ public class ProjectileMover extends Mover {
 		double power = 20;
 		xvel = ((tx-startx)/distance)*power;
 		yvel = ((ty-starty)/distance)*power;
-		getParent().setVisable(true);
+		getParent().setVisible(true);
 		time = 1;
 		dcount = 0;
 		if (xvel < 0)

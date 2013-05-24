@@ -38,7 +38,7 @@ public class Player_Level1 extends Bullet {
 	 */
 	@Override
 	public void draw(Graphics g, BufferedImage screen) {
-		if (isVisable() && getImage() != null)
+		if (isVisible() && getImage() != null)
 			g.drawImage(getImage(), (int)(getDrawX()), (int)(getDrawY()), getImage().getWidth(), getImage().getHeight(), null);
 	}
 

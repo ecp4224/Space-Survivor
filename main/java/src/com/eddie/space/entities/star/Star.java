@@ -28,7 +28,6 @@ public class Star extends Entity {
         if (window == null)
         	Star.window = w;
         validateStar();
-        system.getEventSystem().registerEvents(this);
         system.getTicker().removeTick(this); //We dont need the tick
         manager.addStar(this);
     }
@@ -50,7 +49,7 @@ public class Star extends Entity {
      */
     @Override
     public void draw(Graphics g, BufferedImage screen) {
-        if (isVisable() && getImage() != null) {
+        if (isVisible() && getImage() != null) {
             g.drawImage(star, (int)getDrawX(), (int)getDrawY(), 4, 4, null);
         }
     }

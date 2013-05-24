@@ -29,6 +29,9 @@ public abstract class Bullet extends RotatableEntity implements Damager {
 	 */
 	@Override
 	public void onHit(Entity hit, double cx, double cy) {
+		System.out.println("HIT!");
+		super.clearMoverList();
+		setY(getY() + (hit.getImage().getHeight() / 2));
 		super.getAnimation().setAnimation(AnimationStyle.DEATH);
 	}
 	
@@ -36,7 +39,10 @@ public abstract class Bullet extends RotatableEntity implements Damager {
 	@Override
 	public void tick() {
 		super.tick();
-		if (isVisable() && getAnimation().getStyle() != AnimationStyle.DEATH) {
+		if (getAnimation() == null) {
+			dispose();
+		}
+		else if (isVisible() && getAnimation().getStyle() != AnimationStyle.DEATH) {
 			setX(getX() + xadd);
 			setY((getY() - (BulletManager.getSpeed() * yadd)));
 			if (getY() <= 0)

@@ -14,6 +14,7 @@ import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.entity.types.Smart;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.system.RPEG;
+import com.eddie.space.entities.Explode;
 import com.eddie.space.entities.RotatableEntity;
 import com.eddie.space.entities.bullets.Bullet;
 import com.eddie.space.entities.bullets.BulletManager;
@@ -25,6 +26,27 @@ public abstract class SpaceCraft extends RotatableEntity implements Killable, Da
 	public SpaceCraft(String name, RPEG core, Level level) {
 		super(name, core, level);
 		setRotation(0);
+	}
+	
+	public void explode() {
+		Explode e = new Explode(getLevel(), system);
+		e.setX(getX());
+		e.setY(getY());
+		e.setVisible(true);
+		e.setAnimationSpeed(50);
+		getDrawerParent().addObject(e);
+		
+		
+		setVisible(false);
+		dispose();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.eddie.rpeg.engine.entity.Killable#kill()
+	 */
+	@Override
+	public void kill() {
+		explode();
 	}
 
 	public void setBulletType(Class<? extends Bullet> class_) {
@@ -50,6 +72,7 @@ public abstract class SpaceCraft extends RotatableEntity implements Killable, Da
 			Bullet b = construct.newInstance(getLevel(), system);
 			CollisionMover cm = new SimpleCollisionMover(b, system);
 			cm.ignoreEntity(this);
+			b.addMover(cm);
 			double bx = getX() + (getImage().getWidth() / 2);
 			double by = getY() + (getImage().getHeight() / 2);
 			b.setX(bx + g.getXOffset());
@@ -60,7 +83,7 @@ public abstract class SpaceCraft extends RotatableEntity implements Killable, Da
 			if (getRotation() > 90 && getRotation() < 270)
 				xx *= -1;
 			b.setXAdd(xx);
-			b.setVisable(true);
+			b.setVisible(true);
 			getDrawerParent().addObject(b);
 		} catch (Exception e) {
 			e.printStackTrace();

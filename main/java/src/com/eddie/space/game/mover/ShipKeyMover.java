@@ -13,6 +13,7 @@ import java.util.Map;
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.model.SimpleKeyMover;
 import com.eddie.rpeg.engine.system.RPEG;
+import com.eddie.space.entities.RotatableEntity;
 import com.eddie.space.entities.ships.Gun;
 import com.eddie.space.entities.ships.SpaceCraft;
 
@@ -49,6 +50,24 @@ public class ShipKeyMover extends SimpleKeyMover {
 			getParent().setX(getParent().getX() - speed);
 		if (isKeyPressed(KeyEvent.VK_D))
 			getParent().setX(getParent().getX() + speed);
+		if (isKeyPressed(KeyEvent.VK_Q) && getParent() instanceof RotatableEntity) {
+			RotatableEntity e = (RotatableEntity)getParent();
+			int set = (int)(e.getRotation() - speed);
+			if (set < 0)
+				set = (int) (360 - speed);
+			e.setRotation(set);
+		}
+		if (isKeyPressed(KeyEvent.VK_E) && getParent() instanceof RotatableEntity) {
+			RotatableEntity e = (RotatableEntity)getParent();
+			int set = (int)(e.getRotation() + speed);
+			if (set > 360)
+				set = (int) (speed);
+			e.setRotation(set);
+		}
+		if (isKeyPressed(KeyEvent.VK_W) && getParent() instanceof RotatableEntity) {
+			RotatableEntity e = (RotatableEntity)getParent();
+			e.setRotation(0);
+		}
 		for (int i : bind_keys.keySet()) {
 			if (isKeyPressed(i) && !bind_keys.get(i)) {
 				SpaceCraft sc = (SpaceCraft)getParent();

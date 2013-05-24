@@ -109,7 +109,7 @@ public abstract class ThrowableEntity extends Entity implements Throwable, Damag
 			c.alert(parent);
 		}
 		ehit = true;
-		setVisable(false);
+		setVisible(false);
 		dispose();
 	}
 

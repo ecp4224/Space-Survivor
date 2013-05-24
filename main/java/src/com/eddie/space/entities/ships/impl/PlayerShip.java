@@ -70,7 +70,6 @@ public class PlayerShip extends SpaceCraft {
 
 	public PlayerShip(RPEG core, Level level) {
 		this("player", core, level);
-		core.getEventSystem().registerEvents(this);
 	}
 
 	private static final long serialVersionUID = -3696970516358028607L;
@@ -108,15 +107,6 @@ public class PlayerShip extends SpaceCraft {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.eddie.rpeg.engine.entity.Killable#kill()
-	 */
-	@Override
-	public void kill() {
-		//TODO Blow up
-		dispose();
-	}
-
-	/* (non-Javadoc)
 	 * @see com.eddie.rpeg.engine.entity.types.Damager#getDamage()
 	 */
 	@Override
@@ -146,7 +136,7 @@ public class PlayerShip extends SpaceCraft {
 	 */
 	@Override
 	public void draw(Graphics g, BufferedImage screen) {
-		if (isVisable() && getImage() != null)
+		if (isVisible() && getImage() != null)
 			g.drawImage(getImage(), (int)(getDrawX()), (int)(getDrawY()), getImage().getWidth(), getImage().getHeight(), null);
 	}
 	
