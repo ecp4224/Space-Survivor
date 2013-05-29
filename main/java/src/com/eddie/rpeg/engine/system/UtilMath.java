@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.CollisionMover;
+import com.eddie.rpeg.engine.entity.types.Backdrop;
 import com.eddie.rpeg.engine.entity.types.Damager;
 import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.entity.types.Throwable;
@@ -31,6 +32,8 @@ public class UtilMath {
 						score[1]=score[1]+Math.sin(Math.toRadians(i*20));
 						continue;
 					}
+					if (e instanceof Backdrop)
+						continue;
 					if (Math.abs(e.getY() - y) < 10 || e instanceof Throwable) {
 						if (Math.abs(e.getX() - x+width*Math.cos(Math.toRadians(i*20))) < e.getWidth() && Math.abs(e.getY() - y+height*Math.sin(Math.toRadians(i*20))) < e.getHeight()) {
 							if (owner instanceof Damager) {

@@ -70,9 +70,6 @@ public abstract class SpaceCraft extends RotatableEntity implements Killable, Da
 		try {
 			Constructor<? extends Bullet> construct = bullet_type.getConstructor(Level.class, RPEG.class);
 			Bullet b = construct.newInstance(getLevel(), system);
-			CollisionMover cm = new SimpleCollisionMover(b, system);
-			cm.ignoreEntity(this);
-			b.addMover(cm);
 			double bx = getX() + (getImage().getWidth() / 2);
 			double by = getY() + (getImage().getHeight() / 2);
 			b.setX(bx + g.getXOffset());
@@ -84,6 +81,9 @@ public abstract class SpaceCraft extends RotatableEntity implements Killable, Da
 				xx *= -1;
 			b.setXAdd(xx);
 			b.setVisible(true);
+			CollisionMover cm = new SimpleCollisionMover(b, system);
+			cm.ignoreEntity(this);
+			b.addMover(cm);
 			getDrawerParent().addObject(b);
 		} catch (Exception e) {
 			e.printStackTrace();

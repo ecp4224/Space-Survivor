@@ -389,7 +389,7 @@ public abstract class Entity implements Tick, Serializable{
 		}
 		getDrawerParent().removeObject(this);
 		system.getTicker().removeTick(this);
-		move.clear();
+		clearMoverList();
 	}
 
 	public abstract void draw(Graphics g, BufferedImage screen);

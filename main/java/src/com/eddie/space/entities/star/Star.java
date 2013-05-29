@@ -12,11 +12,12 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import com.eddie.rpeg.engine.entity.Entity;
+import com.eddie.rpeg.engine.entity.types.Backdrop;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.gui.Window;
 import com.eddie.rpeg.engine.system.RPEG;
 
-public class Star extends Entity {
+public class Star extends Entity implements Backdrop {
     private static final long serialVersionUID = -7584479734207900386L;
     private static double speed = 4;
     private final int TOLERENCE = 10;
@@ -34,7 +35,7 @@ public class Star extends Entity {
         validateStar();
         system.getTicker().removeTick(this); //We dont need the tick
         manager.addStar(this);
-        z = (byte)(RANDOM.nextInt(50) + 5);
+        z = (byte)(RANDOM.nextInt(50) + 10);
         if (z > 2) {
             hue = RANDOM.nextFloat();
         }

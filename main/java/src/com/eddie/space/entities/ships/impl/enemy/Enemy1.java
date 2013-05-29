@@ -17,6 +17,7 @@ import com.eddie.space.entities.ships.Gun;
 import com.eddie.space.entities.ships.SpaceCraft;
 
 public class Enemy1 extends SpaceCraft {
+	private static final long serialVersionUID = 1L;
 	private int health = 20;
 
 	/**
@@ -26,6 +27,10 @@ public class Enemy1 extends SpaceCraft {
 	 */
 	public Enemy1(RPEG core, Level level) {
 		super("E1", core, level);
+	}
+	
+	public void onLoad() {
+		setRotation(180);
 	}
 
 	/* (non-Javadoc)

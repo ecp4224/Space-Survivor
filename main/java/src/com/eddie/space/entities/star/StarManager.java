@@ -48,11 +48,11 @@ public class StarManager implements Listener {
     }
     
     private void moveStars() {
-        double plus = (avg * 4) / Game.DIFFICULTY;
+        double plus = (avg * 5) / Game.DIFFICULTY;
         if (Game.DEBUG)
             System.out.println("SHIP SPEED " + plus);
         if (plus == 0)
-            plus = 2;
+            plus = 2 * 5;
         Star[] stars = this.stars.toArray(new Star[this.stars.size()]);
         for (Star s : stars) {
             s.move((int)plus);
