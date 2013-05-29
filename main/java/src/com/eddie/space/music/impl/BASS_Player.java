@@ -37,6 +37,7 @@ public class BASS_Player implements MediaPlayer, Tick {
     private double avg;
     private RPEG system;
     private ObjectDrawer draw;
+    private int otherval;
     public BASS_Player(RPEG system, ObjectDrawer drawer) { 
         try {
             BassInit.loadLibraries();
@@ -117,9 +118,18 @@ public class BASS_Player implements MediaPlayer, Tick {
             lowest = 0;
         }
         oldnum = num;
+        
+        //GETTING TREBLE..?
+        float num2 = 0f;
+        for (int i = 10; i <= 20; i++) {
+            num2 += floats.get(i);
+        }
+        num2 *= (13f/15f);
+        //System.out.println("NUM2 " + num2);
+        
         if (Game.DEBUG)
             System.out.println("SPEED " + avg);
-        OnBeat event = new OnBeat(avg, num, draw);
+        OnBeat event = new OnBeat(avg, num, draw, num2);
         system.getEventSystem().callEvent(event);
     }
 

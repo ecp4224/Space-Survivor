@@ -10,14 +10,20 @@ public class OnBeat extends Event {
     private double speed;
     private float beat;
     private ObjectDrawer drawer;
+    private float num2;
     
-    public OnBeat(double avg, float beat, ObjectDrawer drawer) {
+    public OnBeat(double avg, float beat, ObjectDrawer drawer, float num2) {
         this.speed = avg;
         this.beat = beat;
+        this.num2 = num2;
     }
     
     public double getSpeed() {
         return speed;
+    }
+    
+    public float getMel() {
+        return num2;
     }
     
     public float getBeat() {

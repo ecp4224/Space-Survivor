@@ -9,6 +9,7 @@ package com.eddie.space.entities.star;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.level.Level;
@@ -22,14 +23,21 @@ public class Star extends Entity {
     private static BufferedImage star;
     private static StarManager manager;
     private static Window window;
+    private byte z;
+    private float hue;
+    private static final Random RANDOM = new Random();
 
     public Star(RPEG system, Level level, Window w) {
         super("Star", system, level, false);
         if (window == null)
-        	Star.window = w;
+            Star.window = w;
         validateStar();
         system.getTicker().removeTick(this); //We dont need the tick
         manager.addStar(this);
+        z = (byte)(RANDOM.nextInt(50) + 5);
+        if (z > 2) {
+            hue = RANDOM.nextFloat();
+        }
     }
 
     private void validateStar() {
@@ -40,7 +48,7 @@ public class Star extends Entity {
         star = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
         Graphics g = star.getGraphics();
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 4, 4);
+        g.fillOval(0, 0, 4, 4);
         g.dispose();
     }
 
@@ -50,7 +58,10 @@ public class Star extends Entity {
     @Override
     public void draw(Graphics g, BufferedImage screen) {
         if (isVisible() && getImage() != null) {
-            g.drawImage(star, (int)getDrawX(), (int)getDrawY(), 4, 4, null);
+            float s = (float)manager.getBeat();
+            Color c = Color.getHSBColor(hue, s, 1.0f);
+            g.setColor(c);
+            g.fillOval((int)getDrawX(), (int)getDrawY(), (int)(100 / z), (int)(100 / z));
         }
     }
 
@@ -58,8 +69,8 @@ public class Star extends Entity {
     public void tick() { }
 
 
-    
-    
+
+
 
     public static double getSpeed() {
         return speed;
@@ -68,9 +79,9 @@ public class Star extends Entity {
     public static void setSpeed(double speed) {
         Star.speed = speed;
     }
-    
+
     public void move(int plus) {
-        setY(getY() + plus);
+        setY(getY() + (plus / z));
         if (getY() - TOLERENCE >= system.getMaxScreenY())
             dispose();
     }

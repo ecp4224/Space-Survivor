@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.events.EventHandler;
+import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.ships.Gun;
@@ -19,7 +20,7 @@ import com.eddie.space.entities.ships.SpaceCraft;
 import com.eddie.space.events.OnBeat;
 import java.awt.event.KeyEvent;
 
-public class PlayerShip extends SpaceCraft {
+public class PlayerShip extends SpaceCraft implements Listener {
 	private final Gun[] guns = new Gun[] {
 			new Gun() {
 
@@ -66,6 +67,7 @@ public class PlayerShip extends SpaceCraft {
 	 */
 	public PlayerShip(String name, RPEG core, Level level) {
 		super(name, core, level);
+		core.getEventSystem().registerEvents(this);
 	}
 
 	public PlayerShip(RPEG core, Level level) {

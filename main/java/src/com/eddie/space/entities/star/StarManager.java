@@ -22,6 +22,8 @@ public class StarManager implements Listener {
     private Level world;
     private Window window;
     private static final Random random = new Random();
+    private int num;
+    private float num2;
     
     public StarManager(RPEG system, Level world, Window window) {
         this.system = system;
@@ -33,10 +35,20 @@ public class StarManager implements Listener {
     public void onBeat(OnBeat event) {
         calculateAVG(event.getSpeed());
         moveStars();
+        num = (int) event.getBeat();
+        num2 = event.getMel();
+    }
+    
+    public double getBeat() {
+        return num;
+    }
+    
+    public float getMel() {
+        return num2;
     }
     
     private void moveStars() {
-        double plus = avg / Game.DIFFICULTY;
+        double plus = (avg * 4) / Game.DIFFICULTY;
         if (Game.DEBUG)
             System.out.println("SHIP SPEED " + plus);
         if (plus == 0)
@@ -50,9 +62,7 @@ public class StarManager implements Listener {
     }
     
     public void createStars() {
-    	if (stars.size() > avg * 4)
-    		return;
-    	int count = random.nextInt(avg) + 1;
+    	int count = random.nextInt(avg * 4) + (int)((40 / Game.DIFFICULTY));
     	for (int i = 0; i < count; i++) {
     		createStar();
     	}
