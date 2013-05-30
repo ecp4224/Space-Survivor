@@ -60,6 +60,7 @@ public class PlayerShip extends SpaceCraft implements Listener {
 			}
 	};
 	private double yadd;
+    private boolean bounce;
 	/**
 	 * @param name
 	 * @param core
@@ -72,6 +73,14 @@ public class PlayerShip extends SpaceCraft implements Listener {
 
 	public PlayerShip(RPEG core, Level level) {
 		this("player", core, level);
+	}
+	
+	public void setBounce(boolean bounce) {
+	    this.bounce = bounce;
+	}
+	
+	public boolean isBouncing() {
+	    return bounce;
 	}
 
 	private static final long serialVersionUID = -3696970516358028607L;
@@ -144,6 +153,8 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	
 	@EventHandler
 	public void onBeat(OnBeat beat) {
+	    if (!bounce)
+	        return;
 		yadd = beat.getBeat() * 10;
 	}
 

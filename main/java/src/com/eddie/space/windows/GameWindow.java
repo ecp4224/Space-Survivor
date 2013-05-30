@@ -28,14 +28,15 @@ import com.eddie.space.music.impl.BASS_Player;
 public class GameWindow extends Window implements Listener {
 	private static final long serialVersionUID = 2704165502672086720L;
 	private SpaceWorld w;
-	private MediaPlayer m;
 	private ShipKeyMover player_mover;
+	private String song;
 
 	/**
 	 * @param system
 	 */
-	public GameWindow(RPEG system) {
+	public GameWindow(RPEG system, String song) {
 		super(system);
+		this.song = song;
 	}
 
 	/* (non-Javadoc)
@@ -49,7 +50,7 @@ public class GameWindow extends Window implements Listener {
 	}
 	
 	private void createStar() {
-	    if (m == null)
+	    if (Game.m == null)
 	        return;
 		Star s = new Star(getSystem(), w, this);
 		s.setX(new Random().nextInt(getSystem().getMaxScreenX()));
@@ -111,11 +112,10 @@ public class GameWindow extends Window implements Listener {
 		getObjectDrawer().layerEntities(false);
 		getSystem().getEventSystem().registerEvents(this);
 		w = new SpaceWorld(this);
-		m = new BASS_Player(getSystem(), getObjectDrawer());
 		
 		addPlayer();
 		try {
-            m.play("test.mp3");
+		    Game.m.play(song);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -134,6 +134,7 @@ public class GameWindow extends Window implements Listener {
 		player_mover.attachMover(this);
 		p.setX(getSystem().getMaxScreenX() / 2 - 32);
 		p.setBulletType(Player_Level1.class);
+		p.setBounce(true);
 	}
 	
 	private void addRandomEnemy() {
@@ -147,6 +148,8 @@ public class GameWindow extends Window implements Listener {
 	
 	@EventHandler
 	public void onBeat(OnBeat beat) {
+	    if (player_mover == null)
+	        return;
 		player_mover.setSpeed(beat.getSpeed() / (Game.DIFFICULTY * 10));
 	}
 

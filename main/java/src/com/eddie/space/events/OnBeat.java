@@ -9,10 +9,9 @@ public class OnBeat extends Event {
     private static final EventList events = new EventList();
     private double speed;
     private float beat;
-    private ObjectDrawer drawer;
     private float num2;
     
-    public OnBeat(double avg, float beat, ObjectDrawer drawer, float num2) {
+    public OnBeat(double avg, float beat, float num2) {
         this.speed = avg;
         this.beat = beat;
         this.num2 = num2;
@@ -28,10 +27,6 @@ public class OnBeat extends Event {
     
     public float getBeat() {
         return beat;
-    }
-    
-    public ObjectDrawer getObjectDrawer() {
-    	return drawer;
     }
     
     @Override

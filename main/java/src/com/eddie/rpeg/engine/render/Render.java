@@ -45,6 +45,8 @@ public class Render implements Tick {
 			tempg.dispose();
 			temp = null;
 		}
+		if (bf == null)
+		    return;
 		bf.show();
 		Toolkit.getDefaultToolkit().sync();
 		g = null;

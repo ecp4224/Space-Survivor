@@ -36,9 +36,8 @@ public class BASS_Player implements MediaPlayer, Tick {
     private double count;
     private double avg;
     private RPEG system;
-    private ObjectDrawer draw;
     private int otherval;
-    public BASS_Player(RPEG system, ObjectDrawer drawer) { 
+    public BASS_Player(RPEG system) { 
         try {
             BassInit.loadLibraries();
         } catch(BassException e) {
@@ -129,7 +128,7 @@ public class BASS_Player implements MediaPlayer, Tick {
         
         if (Game.DEBUG)
             System.out.println("SPEED " + avg);
-        OnBeat event = new OnBeat(avg, num, draw, num2);
+        OnBeat event = new OnBeat(avg, num, num2);
         system.getEventSystem().callEvent(event);
     }
 

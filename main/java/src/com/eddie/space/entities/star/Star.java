@@ -26,6 +26,7 @@ public class Star extends Entity implements Backdrop {
     private static Window window;
     private byte z;
     private float hue;
+    private long lastMove;
     private static final Random RANDOM = new Random();
 
     public Star(RPEG system, Level level, Window w) {
@@ -35,10 +36,12 @@ public class Star extends Entity implements Backdrop {
         validateStar();
         system.getTicker().removeTick(this); //We dont need the tick
         manager.addStar(this);
+        lastMove = manager.getLastMove();
         z = (byte)(RANDOM.nextInt(50) + 10);
         if (z > 2) {
             hue = RANDOM.nextFloat();
         }
+        
     }
 
     private void validateStar() {
@@ -64,14 +67,14 @@ public class Star extends Entity implements Backdrop {
             g.setColor(c);
             g.fillOval((int)getDrawX(), (int)getDrawY(), (int)(100 / z), (int)(100 / z));
         }
+        if (Math.abs(lastMove - manager.getLastMove()) > 1000) {
+            System.out.println("Dead star detected (ID " + getID() + ")");
+            dispose();
+        }
     }
 
     @Override
     public void tick() { }
-
-
-
-
 
     public static double getSpeed() {
         return speed;
@@ -85,6 +88,7 @@ public class Star extends Entity implements Backdrop {
         setY(getY() + (plus / z));
         if (getY() - TOLERENCE >= system.getMaxScreenY())
             dispose();
+        lastMove = System.currentTimeMillis();
     }
 
     @Override
