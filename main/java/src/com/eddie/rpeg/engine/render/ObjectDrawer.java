@@ -40,7 +40,7 @@ public class ObjectDrawer extends ArrayList<Entity> implements Listener {
         test.start();
     }
 
-    public void unregister(RPEG system) {
+    public void unregister() {
         onDrawEvent.getEventList().unregister(this);
         run = false;
         test.interrupt();
@@ -49,6 +49,7 @@ public class ObjectDrawer extends ArrayList<Entity> implements Listener {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        clear();
     }
 
     /**
@@ -142,6 +143,8 @@ public class ObjectDrawer extends ArrayList<Entity> implements Listener {
 
     @EventHandler
     public void onDraw(final onDrawEvent event) {
+        if (!run)
+            return;
         if (layer && !isOrganized())
             organize();
         ArrayList<Entity> toremove = new ArrayList<Entity>();
@@ -192,9 +195,7 @@ public class ObjectDrawer extends ArrayList<Entity> implements Listener {
                 fps = 0;
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                } catch (InterruptedException e) { }
             }
         }
     }

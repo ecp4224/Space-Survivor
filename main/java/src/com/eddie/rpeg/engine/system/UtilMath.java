@@ -34,16 +34,17 @@ public class UtilMath {
 					}
 					if (e instanceof Backdrop)
 						continue;
+					double cx = x+width*Math.cos(Math.toRadians(i*20));
+					double cy = y+height*Math.sin(Math.toRadians(i*20));
 					if (Math.abs(e.getY() - y) < 10 || e instanceof Throwable) {
-						if (Math.abs(e.getX() - x+width*Math.cos(Math.toRadians(i*20))) < e.getWidth() && Math.abs(e.getY() - y+height*Math.sin(Math.toRadians(i*20))) < e.getHeight()) {
+						if (Math.abs(e.getX() - cx) < e.getWidth() && Math.abs(e.getY() - cy) < e.getHeight()) {
 							if (owner instanceof Damager) {
 								Damager d = (Damager)owner;
 								if (e instanceof Killable) {
 									Killable k = (Killable)e;
 									if (k.canKill()) {
 										d.onHit(e, e.getX(), e.getY());
-										k.hit(d.getDamage());
-										System.out.println(k.getHealth());
+										k.hit(d.getDamage(), (Entity)d);
 									}
 								}
 							}

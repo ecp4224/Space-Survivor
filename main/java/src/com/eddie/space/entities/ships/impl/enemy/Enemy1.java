@@ -10,7 +10,6 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.eddie.rpeg.engine.entity.Entity;
-import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.ships.Gun;
@@ -28,7 +27,7 @@ public class Enemy1 extends SpaceCraft {
 	public Enemy1(RPEG core, Level level) {
 		super("E1", core, level);
 	}
-	
+
 	public void onLoad() {
 		setRotation(180);
 	}
@@ -45,7 +44,7 @@ public class Enemy1 extends SpaceCraft {
 	 * @see com.eddie.rpeg.engine.entity.types.Killable#hit(int)
 	 */
 	@Override
-	public void hit(int damage) {
+	public void hit(int damage, Entity e) {
 		health -= damage;
 		if (health <= 0)
 			kill();
@@ -72,9 +71,8 @@ public class Enemy1 extends SpaceCraft {
 	 */
 	@Override
 	public void onHit(Entity hit, double cx, double cy) {
-		if (hit instanceof Killable)
-			((Killable)hit).hit(getDamage());
-		kill();
+		if (hit instanceof SpaceCraft)
+			kill();
 	}
 
 	/* (non-Javadoc)
@@ -107,7 +105,7 @@ public class Enemy1 extends SpaceCraft {
 					public int getBindKey() {
 						return 0;
 					}
-					
+
 				}
 		};
 	}

@@ -37,6 +37,7 @@ public class RPEG {
     private JFrame frame = new JFrame("Loading...");
     
     private Window currentlyselected;
+    private final GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
     
     /**
      * Initialize the engine and set the max screen width and height.
@@ -48,7 +49,6 @@ public class RPEG {
     public void init(int maxx, int maxy) {
     	this.MAX_SCREEN_X = maxx;
     	this.MAX_SCREEN_Y = maxy;
-    	GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		frame.setMinimumSize(new Dimension(MAX_SCREEN_X, MAX_SCREEN_Y));
 		frame.setLocation((gd.getDisplayMode().getWidth() - frame.getWidth()) / 2, (gd.getDisplayMode().getHeight() - frame.getHeight()) / 2);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,12 +79,16 @@ public class RPEG {
      */
     public void setWindow(Window w) {
     	if (currentlyselected != null) {
+    	    currentlyselected.onUnload();
     		currentlyselected = w;
     		frame.setVisible(false);
     		frame.dispose();
     		frame = null;
     		
     		frame = new JFrame("Loading..");
+    		frame.setMinimumSize(new Dimension(MAX_SCREEN_X, MAX_SCREEN_Y));
+            frame.setLocation((gd.getDisplayMode().getWidth() - frame.getWidth()) / 2, (gd.getDisplayMode().getHeight() - frame.getHeight()) / 2);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	}
 		currentlyselected = w;
 		currentlyselected.init();

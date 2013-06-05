@@ -7,50 +7,40 @@
 package com.eddie.space.entities.space;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Random;
 
 import com.eddie.rpeg.engine.entity.Entity;
+import com.eddie.rpeg.engine.entity.types.Damager;
+import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.system.RPEG;
+import com.eddie.space.entities.bullets.Bullet;
+import com.eddie.space.entities.ships.impl.PlayerShip;
 
-public class Asteroid extends Entity {
+public class Asteroid extends Entity implements Killable, Damager {
 	private static final long serialVersionUID = 190032552849804267L;
-	private static final ArrayList<BufferedImage> generations = new ArrayList<BufferedImage>();
 	private static final Random RANDOM = new Random();
+	private static final int COUNT = 1;
+	private int size_multiplier = 1;
+	private int health;
 	
 	public Asteroid(Level level, RPEG core) {
-		super("Asteroid", core, level, false);
-		createImage();
+		super("asteroid" + RANDOM.nextInt(COUNT), core, level);
+		size_multiplier = RANDOM.nextInt(2) + 1;
+		health = 100 / size_multiplier;
 	}
 	
-	private void createImage() {
-		if (RANDOM.nextDouble() < .3 || generations.size() == 0) {
-			double dens = RANDOM.nextDouble();
-			int xsize = RANDOM.nextInt(64) + 64;
-			int ysize = RANDOM.nextInt(64) + 64;
-			
-		} else {
-			setImage(generations.get(RANDOM.nextInt(generations.size())));
-		}
+	@Override
+	public void onLoad() {
+		super.tick(); //Load up the image
+		system.getTicker().removeTick(this); //Stop ticking
 	}
 	
-	private BufferedImage generateFromCenter(double dens, int xsize, int ysize) {
-		BufferedImage generate = new BufferedImage(xsize, ysize, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = generate.createGraphics();
-		int xcenter = xsize / 2;
-		int ycenter = ysize / 2;
-		
-		
-		
-		return generate;
-	}
-	
-	private void addPixel(Graphics g, int x, int y, double dens, int cx, int cy) {
-		//g.fillRect(x, y, 1, 1);
-		//int dis = Math.sqrt(Math.pow((x - cx), 2) + Math.pow(y - cy, 2));
+	@Override
+	public void dispose() {
+		super.dispose();
+		AsteroidSpawner.remove(this);
 	}
 
 	/* (non-Javadoc)
@@ -58,8 +48,93 @@ public class Asteroid extends Entity {
 	 */
 	@Override
 	public void draw(Graphics g, BufferedImage screen) {
-		// TODO Auto-generated method stub
-		
+		if (isVisible() && getImage() != null)
+			g.drawImage(getImage(), (int)(getDrawX()), (int)(getDrawY()), getWidth(), getHeight(), null);
+	}
+	
+	@Override
+	public int getWidth() {
+		return getImage().getWidth() / size_multiplier;
+	}
+	
+	@Override
+	public int getHeight() {
+		return getImage().getHeight() / size_multiplier;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.eddie.rpeg.engine.entity.types.Damager#getDamage()
+	 */
+	@Override
+	public int getDamage() {
+		//TODO Faster moving means more damage
+		return 20 / size_multiplier;
+	}
+	
+	@Override
+	public void tick() {
+		super.tick();
+	}
+	
+	public void move() {
+		if (isVisible()) {
+			setY((getY() + (AsteroidSpawner.getSpeed() * size_multiplier)));
+			if (getY() >= system.getMaxScreenY()) {
+				dispose();
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.eddie.rpeg.engine.entity.types.Damager#onHit(com.eddie.rpeg.engine.entity.Entity, double, double)
+	 */
+	@Override
+	public void onHit(Entity hit, double cx, double cy) {
+	}
+
+	/* (non-Javadoc)
+	 * @see com.eddie.rpeg.engine.entity.types.Killable#getHealth()
+	 */
+	@Override
+	public double getHealth() {
+		return health;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.eddie.rpeg.engine.entity.types.Killable#hit(int)
+	 */
+	@Override
+	public void hit(int damage, Entity e) {
+		if (e instanceof Asteroid)
+			return;
+		health -= damage;
+		if (health <= 0) {
+			kill();
+			if (e instanceof Bullet) {
+				PlayerShip.score += (Math.abs(PlayerShip.instance.getY() - getY()) / 2) * size_multiplier;
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.eddie.rpeg.engine.entity.types.Killable#canKill()
+	 */
+	@Override
+	public boolean canKill() {
+		return health > 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.eddie.rpeg.engine.entity.types.Killable#kill()
+	 */
+	@Override
+	public void kill() {
+		dispose();
+	}
+	
+	@Override
+	public boolean inSeperateThread() {
+		return false;
 	}
 
 }

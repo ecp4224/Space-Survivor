@@ -387,7 +387,8 @@ public abstract class Entity implements Tick, Serializable{
 			animation.dispose();
 			animation = null;
 		}
-		getDrawerParent().removeObject(this);
+		if (getDrawerParent() != null)
+		    getDrawerParent().removeObject(this);
 		system.getTicker().removeTick(this);
 		clearMoverList();
 	}

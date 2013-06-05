@@ -16,7 +16,6 @@ import jouvieje.bass.exceptions.BassException;
 import jouvieje.bass.structures.HSTREAM;
 import jouvieje.bass.utils.BufferUtils;
 
-import com.eddie.rpeg.engine.render.ObjectDrawer;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.system.Tick;
 import com.eddie.space.events.OnBeat;
@@ -36,9 +35,9 @@ public class BASS_Player implements MediaPlayer, Tick {
     private double count;
     private double avg;
     private RPEG system;
-    private ObjectDrawer draw;
     private int otherval;
-    public BASS_Player(RPEG system, ObjectDrawer drawer) { 
+    private float intense;
+    public BASS_Player(RPEG system) { 
         try {
             BassInit.loadLibraries();
         } catch(BassException e) {
@@ -127,9 +126,21 @@ public class BASS_Player implements MediaPlayer, Tick {
         num2 *= (13f/15f);
         //System.out.println("NUM2 " + num2);
         
+        float num3 = 0f;
+        int highest = -1;
+        for (int i = 0; i <= 20; i++) {
+        	if (highest == -1 || floats.get(i) > floats.get(highest)) {
+        		highest = i;
+        	}
+            num3 += floats.get(i);
+        }
+        intense = num3;
+        if (Game.DEBUG)
+        	System.out.println("INTENSE: " + num3 + " HIGHEST INDEX: " + highest);
+        
         if (Game.DEBUG)
             System.out.println("SPEED " + avg);
-        OnBeat event = new OnBeat(avg, num, draw, num2);
+        OnBeat event = new OnBeat(avg, num, num2, this);
         system.getEventSystem().callEvent(event);
     }
 
@@ -142,5 +153,15 @@ public class BASS_Player implements MediaPlayer, Tick {
     public int getTimeout() {
         return 30;
     }
+	/**
+	 * @return the otherval
+	 */
+	public int getMel() {
+		return otherval;
+	}
+	
+	public float getIntensitiy() {
+		return intense;
+	}
     
 }

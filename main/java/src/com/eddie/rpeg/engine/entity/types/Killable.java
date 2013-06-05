@@ -6,6 +6,8 @@
  */
 package com.eddie.rpeg.engine.entity.types;
 
+import com.eddie.rpeg.engine.entity.Entity;
+
 /**
  * This object can die
  */
@@ -21,7 +23,7 @@ public interface Killable {
 	 * Hit this entity and dealing the damage set in the parameter
 	 * @param damage
 	 */
-	public void hit(int damage);
+	public void hit(int damage, Entity by);
 	
 	/**
 	 * Whether this object can die, or "be killed"

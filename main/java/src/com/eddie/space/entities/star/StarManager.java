@@ -24,6 +24,7 @@ public class StarManager implements Listener {
     private static final Random random = new Random();
     private int num;
     private float num2;
+    private long lastMove;
     
     public StarManager(RPEG system, Level world, Window window) {
         this.system = system;
@@ -47,6 +48,10 @@ public class StarManager implements Listener {
         return num2;
     }
     
+    public long getLastMove() {
+        return lastMove;
+    }
+    
     private void moveStars() {
         double plus = (avg * 5) / Game.DIFFICULTY;
         if (Game.DEBUG)
@@ -59,10 +64,11 @@ public class StarManager implements Listener {
             if (s.getY() - 10 >= system.getMaxScreenY())
                 removeStar(s);
         }
+        lastMove = System.currentTimeMillis();
     }
     
     public void createStars() {
-    	int count = random.nextInt(avg * 4) + (int)((40 / Game.DIFFICULTY));
+    	int count = random.nextInt((avg == 0 ? 1 : avg) * 4) + (int)((40 / Game.DIFFICULTY));
     	for (int i = 0; i < count; i++) {
     		createStar();
     	}

@@ -6,21 +6,23 @@
  */
 package com.eddie.space.entities.ships.impl;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.eddie.rpeg.engine.entity.Entity;
-import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.ships.Gun;
 import com.eddie.space.entities.ships.SpaceCraft;
+import com.eddie.space.entities.space.Asteroid;
 import com.eddie.space.events.OnBeat;
 import java.awt.event.KeyEvent;
 
 public class PlayerShip extends SpaceCraft implements Listener {
+	private Entity lasthit;
 	private final Gun[] guns = new Gun[] {
 			new Gun() {
 
@@ -38,7 +40,7 @@ public class PlayerShip extends SpaceCraft implements Listener {
 				public int getBindKey() {
 					return KeyEvent.VK_SPACE;
 				}
-				
+
 			},
 			new Gun() {
 
@@ -56,10 +58,12 @@ public class PlayerShip extends SpaceCraft implements Listener {
 				public int getBindKey() {
 					return KeyEvent.VK_SPACE;
 				}
-				
+
 			}
 	};
 	private double yadd;
+	public static double score;
+	private boolean bounce;
 	/**
 	 * @param name
 	 * @param core
@@ -74,8 +78,22 @@ public class PlayerShip extends SpaceCraft implements Listener {
 		this("player", core, level);
 	}
 
+	public void setBounce(boolean bounce) {
+		this.bounce = bounce;
+	}
+
+	public boolean isBouncing() {
+		return bounce;
+	}
+	
+	@Override
+	public void onLoad() {
+		instance = this;
+	}
+
 	private static final long serialVersionUID = -3696970516358028607L;
 	private double health = 100;
+	public static PlayerShip instance;
 
 	/* (non-Javadoc)
 	 * @see com.eddie.rpeg.engine.entity.Killable#getHealth()
@@ -89,15 +107,26 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	 * @see com.eddie.rpeg.engine.entity.Killable#hit(int)
 	 */
 	@Override
-	public void hit(int damage) {
+	public void hit(int damage, Entity e) {
+		if (lasthit == e)
+			return;
+		lasthit = e;
+		System.out.println("OW!");
 		health -= damage;
 		if (health <= 0)
 			kill();
+		System.out.println("Health: " + health);
 	}
-	
+
 	@Override
 	public double getDrawY() {
 		return super.getDrawY() + yadd;
+	}
+	
+	@Override
+	public void tick() {
+		super.tick();
+		lasthit = null;
 	}
 
 	/* (non-Javadoc)
@@ -106,6 +135,13 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	@Override
 	public boolean canKill() {
 		return getHealth() > 0;
+	}
+
+	public void drawHealth(Graphics g) {
+		g.setColor(Color.GREEN);
+		double width = (getHealth() / 100.0);
+		width *= 200;
+		g.fillRect(0, 10, (int)(width), 20);
 	}
 
 	/* (non-Javadoc)
@@ -121,9 +157,12 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	 */
 	@Override
 	public void onHit(Entity hit, double cx, double cy) {
-		if (hit instanceof Killable)
-			((Killable)hit).hit(getDamage());
-		kill();
+		if (hit instanceof SpaceCraft)
+			kill();
+		if (hit instanceof Asteroid) {
+			Asteroid a = (Asteroid)hit;
+			hit(a.getDamage(), a);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -140,10 +179,18 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	public void draw(Graphics g, BufferedImage screen) {
 		if (isVisible() && getImage() != null)
 			g.drawImage(getImage(), (int)(getDrawX()), (int)(getDrawY()), getImage().getWidth(), getImage().getHeight(), null);
+		drawHealth(g);
+		drawScore(g);
 	}
 	
+	public void drawScore(Graphics g) {
+		g.drawString("Score: " + (int)(score), system.getMaxScreenX() - (g.getFontMetrics().stringWidth("Score: " + (int)(score)) + 20), 20);
+	}
+
 	@EventHandler
 	public void onBeat(OnBeat beat) {
+		if (!bounce)
+			return;
 		yadd = beat.getBeat() * 10;
 	}
 
@@ -154,7 +201,13 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	public Gun[] getGuns() {
 		return guns;
 	}
-
 	
+	@Override
+	public void dispose() {
+		instance = null;
+		super.dispose();
+	}
+
+
 
 }

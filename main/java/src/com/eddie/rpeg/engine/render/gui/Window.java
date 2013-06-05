@@ -50,6 +50,7 @@ public abstract class Window extends Canvas implements Tick, Listener, KeyListen
 	
 	public void onUnload() {
 		render.finalize();
+		objdraw.unregister();
 	}
 	
 	public abstract String getName();

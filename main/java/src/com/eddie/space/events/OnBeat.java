@@ -2,24 +2,29 @@ package com.eddie.space.events;
 
 import com.eddie.rpeg.engine.events.Event;
 import com.eddie.rpeg.engine.events.EventList;
-import com.eddie.rpeg.engine.render.ObjectDrawer;
+import com.eddie.space.music.impl.BASS_Player;
 
 
 public class OnBeat extends Event {
     private static final EventList events = new EventList();
     private double speed;
     private float beat;
-    private ObjectDrawer drawer;
     private float num2;
+    private BASS_Player parent;
     
-    public OnBeat(double avg, float beat, ObjectDrawer drawer, float num2) {
+    public OnBeat(double avg, float beat, float num2, BASS_Player parent) {
         this.speed = avg;
         this.beat = beat;
         this.num2 = num2;
+        this.parent = parent;
     }
     
     public double getSpeed() {
         return speed;
+    }
+    
+    public BASS_Player getParent() {
+    	return parent;
     }
     
     public float getMel() {
@@ -28,10 +33,6 @@ public class OnBeat extends Event {
     
     public float getBeat() {
         return beat;
-    }
-    
-    public ObjectDrawer getObjectDrawer() {
-    	return drawer;
     }
     
     @Override
