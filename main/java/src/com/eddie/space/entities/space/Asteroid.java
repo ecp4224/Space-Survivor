@@ -68,7 +68,7 @@ public class Asteroid extends Entity implements Killable, Damager {
 	@Override
 	public int getDamage() {
 		//TODO Faster moving means more damage
-		return 20 / size_multiplier;
+		return 5 / size_multiplier;
 	}
 	
 	@Override
@@ -78,7 +78,7 @@ public class Asteroid extends Entity implements Killable, Damager {
 	
 	public void move() {
 		if (isVisible()) {
-			setY((getY() + (AsteroidSpawner.getSpeed() * size_multiplier)));
+			setY((getY() + ((AsteroidSpawner.getSpeed() / 1.5) * size_multiplier)));
 			if (getY() >= system.getMaxScreenY()) {
 				dispose();
 			}

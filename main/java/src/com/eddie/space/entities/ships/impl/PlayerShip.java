@@ -19,10 +19,13 @@ import com.eddie.space.entities.ships.Gun;
 import com.eddie.space.entities.ships.SpaceCraft;
 import com.eddie.space.entities.space.Asteroid;
 import com.eddie.space.events.OnBeat;
+import com.eddie.space.game.Game;
+
 import java.awt.event.KeyEvent;
 
 public class PlayerShip extends SpaceCraft implements Listener {
 	private Entity lasthit;
+	private boolean inv;
 	private final Gun[] guns = new Gun[] {
 			new Gun() {
 
@@ -108,14 +111,15 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	 */
 	@Override
 	public void hit(int damage, Entity e) {
+	    if (inv)
+	        return;
 		if (lasthit == e)
 			return;
 		lasthit = e;
-		System.out.println("OW!");
 		health -= damage;
 		if (health <= 0)
 			kill();
-		System.out.println("Health: " + health);
+		inv = true;
 	}
 
 	@Override
@@ -123,10 +127,23 @@ public class PlayerShip extends SpaceCraft implements Listener {
 		return super.getDrawY() + yadd;
 	}
 	
+	int wait;
 	@Override
 	public void tick() {
 		super.tick();
 		lasthit = null;
+		if (inv) {
+		    int max = (int)(70 * Game.DIFFICULTY);
+		    if (wait >= max) {
+		        wait = 0;
+		        inv = false;
+		        setVisible(true);
+		        return;
+		    }
+		    wait++;
+		    if (wait % (wait > (max - (max / 3)) ? 2 : 5) == 0)
+		        setVisible(!isVisible());
+		}
 	}
 
 	/* (non-Javadoc)
@@ -184,6 +201,7 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	}
 	
 	public void drawScore(Graphics g) {
+	    g.setFont(g.getFont().deriveFont(25f));
 		g.drawString("Score: " + (int)(score), system.getMaxScreenX() - (g.getFontMetrics().stringWidth("Score: " + (int)(score)) + 20), 20);
 	}
 

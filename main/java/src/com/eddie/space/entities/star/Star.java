@@ -16,6 +16,7 @@ import com.eddie.rpeg.engine.entity.types.Backdrop;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.gui.Window;
 import com.eddie.rpeg.engine.system.RPEG;
+import com.eddie.space.game.Game;
 
 public class Star extends Entity implements Backdrop {
     private static final long serialVersionUID = -7584479734207900386L;
@@ -37,11 +38,9 @@ public class Star extends Entity implements Backdrop {
         system.getTicker().removeTick(this); //We dont need the tick
         manager.addStar(this);
         lastMove = manager.getLastMove();
-        z = (byte)(RANDOM.nextInt(50) + 10);
-        if (z > 2) {
-            hue = RANDOM.nextFloat();
-        }
-        
+        z = (byte)(RANDOM.nextInt(50) + 10);           
+        hue = RANDOM.nextFloat();
+
     }
 
     private void validateStar() {
@@ -62,7 +61,7 @@ public class Star extends Entity implements Backdrop {
     @Override
     public void draw(Graphics g, BufferedImage screen) {
         if (isVisible() && getImage() != null) {
-            float s = (float)manager.getBeat();
+            float s = (float)(Game.m.getBeat() * 4.0);
             Color c = Color.getHSBColor(hue, s, 1.0f);
             g.setColor(c);
             g.fillOval((int)getDrawX(), (int)getDrawY(), (int)(100 / z), (int)(100 / z));

@@ -12,4 +12,10 @@ public interface MediaPlayer {
 	public int getSpeed();
 	public void play(String filepath) throws IOException;
 	public void close();
+	public double getBeat();
+	public void setOnFinishedListener(SongCompleteListener listen);
+	
+	public interface SongCompleteListener {
+	    public void onSongComplete();
+	}
 }
