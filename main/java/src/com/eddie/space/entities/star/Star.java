@@ -16,94 +16,93 @@ import com.eddie.rpeg.engine.entity.types.Backdrop;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.gui.Window;
 import com.eddie.rpeg.engine.system.RPEG;
+import com.eddie.space.game.Game;
 
 public class Star extends Entity implements Backdrop {
-    private static final long serialVersionUID = -7584479734207900386L;
-    private static double speed = 4;
-    private final int TOLERENCE = 10;
-    private static BufferedImage star;
-    private static StarManager manager;
-    private static Window window;
-    private byte z;
-    private float hue;
-    private long lastMove;
-    private static final Random RANDOM = new Random();
+	private static final long serialVersionUID = -7584479734207900386L;
+	private static double speed = 4;
+	private final int TOLERENCE = 10;
+	private static BufferedImage star;
+	private static StarManager manager;
+	private static Window window;
+	private byte z;
+	private float hue;
+	private long lastMove;
+	private static final Random RANDOM = new Random();
 
-    public Star(RPEG system, Level level, Window w) {
-        super("Star", system, level, false);
-        if (window == null)
-            Star.window = w;
-        validateStar();
-        system.getTicker().removeTick(this); //We dont need the tick
-        manager.addStar(this);
-        lastMove = manager.getLastMove();
-        z = (byte)(RANDOM.nextInt(50) + 10);
-        if (z > 2) {
-            hue = RANDOM.nextFloat();
-        }
-        
-    }
+	public Star(RPEG system, Level level, Window w) {
+		super("Star", system, level, false);
+		if (window == null)
+			Star.window = w;
+		validateStar();
+		system.getTicker().removeTick(this); //We dont need the tick
+		manager.addStar(this);
+		lastMove = manager.getLastMove();
+		z = (byte)(RANDOM.nextInt(50) + 10);
+		hue = RANDOM.nextFloat();
 
-    private void validateStar() {
-        if (manager == null)
-            manager = new StarManager(system, getLevel(), window);
-        if (star != null)
-            return;
-        star = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = star.getGraphics();
-        g.setColor(Color.WHITE);
-        g.fillOval(0, 0, 4, 4);
-        g.dispose();
-    }
+	}
 
-    /* (non-Javadoc)
-     * @see com.eddie.rpeg.engine.entity.Entity#draw(java.awt.Graphics, java.awt.image.BufferedImage)
-     */
-    @Override
-    public void draw(Graphics g, BufferedImage screen) {
-        if (isVisible() && getImage() != null) {
-            float s = (float)manager.getBeat();
-            Color c = Color.getHSBColor(hue, s, 1.0f);
-            g.setColor(c);
-            g.fillOval((int)getDrawX(), (int)getDrawY(), (int)(100 / z), (int)(100 / z));
-        }
-        if (Math.abs(lastMove - manager.getLastMove()) > 1000) {
-            System.out.println("Dead star detected (ID " + getID() + ")");
-            dispose();
-        }
-    }
+	private void validateStar() {
+		if (manager == null)
+			manager = new StarManager(system, getLevel(), window);
+		if (star != null)
+			return;
+		star = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = star.getGraphics();
+		g.setColor(Color.WHITE);
+		g.fillOval(0, 0, 4, 4);
+		g.dispose();
+	}
 
-    @Override
-    public void tick() { }
+	/* (non-Javadoc)
+	 * @see com.eddie.rpeg.engine.entity.Entity#draw(java.awt.Graphics, java.awt.image.BufferedImage)
+	 */
+	@Override
+	public void draw(Graphics g, BufferedImage screen) {
+		if (isVisible() && getImage() != null) {
+			float s = Game.m.getSpeed();
+			Color c = Color.getHSBColor(hue, s, 1.0f);
+			g.setColor(c);
+			g.fillOval((int)getDrawX(), (int)getDrawY(), (int)(100 / z), (int)(100 / z));
+		}
+		if (Math.abs(lastMove - manager.getLastMove()) > 1000) {
+			System.out.println("Dead star detected (ID " + getID() + ")");
+			dispose();
+		}
+	}
 
-    public static double getSpeed() {
-        return speed;
-    }
+	@Override
+	public void tick() { }
 
-    public static void setSpeed(double speed) {
-        Star.speed = speed;
-    }
+	public static double getSpeed() {
+		return speed;
+	}
 
-    public void move(int plus) {
-        setY(getY() + (plus / (z == 0 ? 1 : z)));
-        if (getY() - TOLERENCE >= system.getMaxScreenY())
-            dispose();
-        lastMove = System.currentTimeMillis();
-    }
+	public static void setSpeed(double speed) {
+		Star.speed = speed;
+	}
 
-    @Override
-    public void setImage(BufferedImage image) { } //Do nothing
+	public void move(int plus) {
+		setY(getY() + (plus / (z == 0 ? 1 : z)));
+		if (getY() - TOLERENCE >= system.getMaxScreenY())
+			dispose();
+		lastMove = System.currentTimeMillis();
+	}
 
-    @Override
-    public BufferedImage getImage() {
-        if (star == null)
-            validateStar();
-        return star;
-    }
+	@Override
+	public void setImage(BufferedImage image) { } //Do nothing
 
-    @Override
-    public boolean inSeperateThread() {
-        return false;
-    }
+	@Override
+	public BufferedImage getImage() {
+		if (star == null)
+			validateStar();
+		return star;
+	}
+
+	@Override
+	public boolean inSeperateThread() {
+		return false;
+	}
 
 }

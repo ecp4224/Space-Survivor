@@ -16,6 +16,7 @@ import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.ObjectDrawer;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.events.OnBeat;
+import com.eddie.space.windows.GameWindow;
 
 public class AsteroidSpawner implements Listener {
 	public static double move_speed;
@@ -41,15 +42,23 @@ public class AsteroidSpawner implements Listener {
 	
 	@EventHandler
 	public void beat(OnBeat event) {
+		if (GameWindow.finish) {
+			OnBeat.getEventList().unregister(this);
+			for (Asteroid a : asteroids) {
+				a.dispose();
+				asteroids.clear();
+				return;
+			}
+		}
 		avg = (int)(event.getSpeed());
-		move_speed = avg / 3.0;
+		move_speed = (avg / 3.0) / 1.5;
 		if (asteroids.size() == 0)
 			spawnAll();
 		moveThem();
 	}
 	
 	public static double getSpeed() {
-		return move_speed;
+		return move_speed / 3;
 	}
 	
 	public static void add(Asteroid a) {

@@ -431,5 +431,13 @@ public abstract class Entity implements Tick, Serializable{
 	public int getAnimationSpeed() {
 		return aniwait;
 	}
+	
+	public boolean willVisibleNextDraw() {
+		if (!RPEG.center_player) {
+			return getX() > 0 && getX() < system.getMaxScreenX() && getY() > 0 && getY() < system.getMaxScreenY();
+		} else {
+			return getDrawX() > 0 && getDrawX() < system.getMaxScreenX() && getDrawY() > 0 && getDrawY() < system.getMaxScreenY();
+		}
+	}
 
 }

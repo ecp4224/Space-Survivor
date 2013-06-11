@@ -39,6 +39,11 @@ public class Game {
 	}
 	
 	
+	public void onDeath(int finalscore) {
+		((GameWindow)engine.getCurrentWindow()).playerDied(finalscore);
+	}
+	
+	
 	
 	
 	public static void main(String[] args) {

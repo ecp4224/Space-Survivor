@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public interface MediaPlayer {
 	public int getSpeed();
+	public float getBeat();
+	public float getIntense();
 	public void play(String filepath) throws IOException;
 	public void close();
 }

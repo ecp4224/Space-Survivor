@@ -153,6 +153,8 @@ public class ObjectDrawer extends ArrayList<Entity> implements Listener {
                 toremove.add(get(i));
                 continue;
             }
+            if (!get(i).willVisibleNextDraw())
+            	continue;
             if (get(i) instanceof LightSource && !lightstarted) {
                 lightstarted = true;
                 ColorModel cm = event.getScreenImage().getColorModel();

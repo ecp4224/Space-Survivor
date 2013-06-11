@@ -52,14 +52,14 @@ public class ShipKeyMover extends SimpleKeyMover {
 			getParent().setX(getParent().getX() + speed);
 		if (isKeyPressed(KeyEvent.VK_Q) && getParent() instanceof RotatableEntity) {
 			RotatableEntity e = (RotatableEntity)getParent();
-			int set = (int)(e.getRotation() - speed);
+			int set = (int)(e.getRotation() - 5);
 			if (set < 0)
 				set = (int) (360 - speed);
 			e.setRotation(set);
 		}
 		if (isKeyPressed(KeyEvent.VK_E) && getParent() instanceof RotatableEntity) {
 			RotatableEntity e = (RotatableEntity)getParent();
-			int set = (int)(e.getRotation() + speed);
+			int set = (int)(e.getRotation() + 5);
 			if (set > 360)
 				set = (int) (speed);
 			e.setRotation(set);

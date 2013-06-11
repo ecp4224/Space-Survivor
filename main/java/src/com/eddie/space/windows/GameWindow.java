@@ -6,13 +6,23 @@
  */
 package com.eddie.space.windows;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import com.eddie.rpeg.engine.entity.mover.model.SimpleCollisionMover;
 import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.events.Listener;
+import com.eddie.rpeg.engine.events.Priority;
+import com.eddie.rpeg.engine.events.model.render.onDrawEvent;
 import com.eddie.rpeg.engine.render.gui.Window;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.bullets.impl.Player_Level1;
@@ -32,6 +42,9 @@ public class GameWindow extends Window implements Listener {
 	private SpaceWorld w;
 	private ShipKeyMover player_mover;
 	private String song;
+	public static boolean finish;
+	private boolean fade;
+	private BufferedImage gameover;
 
 	/**
 	 * @param system
@@ -110,6 +123,7 @@ public class GameWindow extends Window implements Listener {
 	 */
 	@Override
 	public void init() {
+		finish = false;
 		getObjectDrawer().register(getSystem());
 		getObjectDrawer().layerEntities(false);
 		getSystem().getEventSystem().registerEvents(this);
@@ -122,9 +136,32 @@ public class GameWindow extends Window implements Listener {
         catch (IOException e) {
             e.printStackTrace();
         }
-		//addRandomEnemy();
+		addRandomEnemy();
 		new AsteroidSpawner(getSystem(), w, getObjectDrawer());
 		
+	}
+	
+	public void playerDied(int finalscore) {
+		gameover = new BufferedImage(getSystem().getMaxScreenX(), getSystem().getMaxScreenY(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = gameover.createGraphics();
+		try {
+			Font font = Font.createFont(Font.TRUETYPE_FONT, new File("libs/exoblackitalic.ttf")).deriveFont(48f).deriveFont(Font.PLAIN);
+			g.setFont(font);
+			g.setFont(g.getFont().deriveFont(108f));
+			g.setColor(Color.white);
+			g.drawString("Game Over", 108, (getSystem().getMaxScreenY() / 2) - 72);
+			ImageIO.write(gameover, "PNG", new File("wat.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		}
+		g.dispose();
+		if (Game.m.getSpeed() < 50)
+			fade = true;
+		else
+			fade = false;
+		finish = true;
 	}
 	
 	private void addPlayer() {
@@ -142,7 +179,6 @@ public class GameWindow extends Window implements Listener {
 		p.setBounce(true);
 	}
 	
-	@SuppressWarnings("unused")
 	private void addRandomEnemy() {
 		Enemy1 p = new Enemy1(getSystem(), w);
 		p.setY(100);
@@ -153,14 +189,25 @@ public class GameWindow extends Window implements Listener {
 		WaypointMover test_move = new WaypointMover(p, getSystem());
 		Random r = new Random();
 		test_move.addWaypoint(r.nextInt(getSystem().getMaxScreenX()), r.nextInt(getSystem().getMaxScreenY()));
+		test_move.addWaypoint(r.nextInt(getSystem().getMaxScreenX()), r.nextInt(getSystem().getMaxScreenY()));
+		test_move.addWaypoint(r.nextInt(getSystem().getMaxScreenX()), r.nextInt(getSystem().getMaxScreenY()));
 		p.addMover(test_move);
 	}
 	
 	@EventHandler
 	public void onBeat(OnBeat beat) {
+		if (finish)
+			return;
 	    if (player_mover == null)
 	        return;
 		player_mover.setSpeed(beat.getSpeed() / (Game.DIFFICULTY * 10));
+	}
+	
+	@EventHandler (priority = Priority.High)
+	public void onDraw(onDrawEvent event) {
+		if (finish) {
+			event.getGraphics().drawImage(gameover, 0, 0, getSystem().getMaxScreenX(), getSystem().getMaxScreenY(), null);
+		}
 	}
 
 	/* (non-Javadoc)

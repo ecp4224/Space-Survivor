@@ -53,7 +53,7 @@ public class StarManager implements Listener {
     }
     
     private void moveStars() {
-        double plus = (avg * 5) / Game.DIFFICULTY;
+        double plus = (avg * 2) / Game.DIFFICULTY;
         if (Game.DEBUG)
             System.out.println("SHIP SPEED " + plus);
         if (plus == 0)

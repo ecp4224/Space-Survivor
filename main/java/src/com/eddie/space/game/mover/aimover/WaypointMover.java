@@ -32,11 +32,11 @@ public class WaypointMover extends Mover {
 	public WaypointMover(Entity parent, RPEG core) {
 		super(parent, core, "WaypointMover");
 	}
-	
+
 	public double getSpeed() {
 		return speed;
 	}
-	
+
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
@@ -49,12 +49,15 @@ public class WaypointMover extends Mover {
 		if (moving) {
 			if (current_target != null && !hasReachedTarget()) {
 				moveTowards(current_target, speed);
+				setAngle();
 			} else {
 				moving = false;
 				waypoints.remove(current_target);
 				current_target = null;
 				directionx = 0;
 				directiony = 0;
+				xreached = false;
+				yreached = false;
 				return;
 			}
 		}
@@ -69,33 +72,34 @@ public class WaypointMover extends Mover {
 			}
 		}
 	}
-	
+
 	private void moveTowards(Waypoint waypoint, double speed) {
+		
 		if (directionx == 0)
 			directionx = (waypoint.getX() - getParent().getX() < -1 ? -speed : speed);
 		if (directiony == 0)
 			directiony = (waypoint.getY() - getParent().getY() < -1 ? -speed : speed);
-		
+
 		if ((directionx < 0 && waypoint.getX() - getParent().getX() < -1) || (directionx > 0 && waypoint.getX() - getParent().getX() >= -1)) {
 			getParent().setX(getParent().getX() + directionx);
 		} else if ((directionx < 0 && waypoint.getX() - getParent().getX() >= -1) || (directionx > 0 && waypoint.getX() - getParent().getX() <= 1)) {
 			xreached = true;
 		}
-		
+
 		if ((directiony < 0 && waypoint.getY() - getParent().getY() < -1) || (directiony > 0 && waypoint.getY() - getParent().getY() >= -1)) {
 			getParent().setY(getParent().getY() + directiony);
 		} else if ((directiony < 0 && waypoint.getY() - getParent().getY() >= -1) || (directiony > 0 && waypoint.getY() - getParent().getY() <= 1)) {
 			yreached = true;
 		}
 	}
-	
+
 	private void setAngle() {
 		RotatableEntity r = (RotatableEntity)getParent();
-		double ydis = current_target.getY() - r.getY();
-		double xdis = current_target.getX() - r.getX();
-		double angle = Math.toDegrees(Math.atan(ydis/xdis));
-		if (angle < 0)
-			angle = angle + 360;
+		float angle = (float) Math.toDegrees(Math.atan2((current_target.getX() - getParent().getX()), -(current_target.getY() - getParent().getY())));
+		if(angle < 0){
+			angle += 360;
+		}
+
 		r.setRotation((int)angle);
 	}
 

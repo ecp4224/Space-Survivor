@@ -146,4 +146,11 @@ public class RPEG {
         return smallx;
     }
 
+	/**
+	 * @return
+	 */
+	public Window getCurrentWindow() {
+		return currentlyselected;
+	}
+
 }

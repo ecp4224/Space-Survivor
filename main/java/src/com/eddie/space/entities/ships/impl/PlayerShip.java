@@ -19,6 +19,8 @@ import com.eddie.space.entities.ships.Gun;
 import com.eddie.space.entities.ships.SpaceCraft;
 import com.eddie.space.entities.space.Asteroid;
 import com.eddie.space.events.OnBeat;
+import com.eddie.space.game.Game;
+
 import java.awt.event.KeyEvent;
 
 public class PlayerShip extends SpaceCraft implements Listener {
@@ -163,6 +165,12 @@ public class PlayerShip extends SpaceCraft implements Listener {
 			Asteroid a = (Asteroid)hit;
 			hit(a.getDamage(), a);
 		}
+	}
+	
+	@Override
+	public void kill() {
+		Game.GAME.onDeath((int)score);
+		super.kill();
 	}
 
 	/* (non-Javadoc)

@@ -10,6 +10,7 @@ import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.events.OnBeat;
+import com.eddie.space.windows.GameWindow;
 
 public class BulletManager implements Listener {
 	private static double bspeed = 10;
@@ -22,6 +23,11 @@ public class BulletManager implements Listener {
 	
 	@EventHandler
 	public void onBeat(OnBeat event) {
+		if (GameWindow.finish) {
+			init = false;
+			OnBeat.getEventList().unregister(this);
+			return;
+		}
 		bspeed = event.getSpeed() / 2;
 	}
 	

@@ -151,7 +151,7 @@ public class BASS_Player implements MediaPlayer, Tick {
 
     @Override
     public int getTimeout() {
-        return 30;
+        return 10;
     }
 	/**
 	 * @return the otherval
@@ -161,6 +161,20 @@ public class BASS_Player implements MediaPlayer, Tick {
 	}
 	
 	public float getIntensitiy() {
+		return intense;
+	}
+	/* (non-Javadoc)
+	 * @see com.eddie.space.music.MediaPlayer#getBeat()
+	 */
+	@Override
+	public float getBeat() {
+		return oldnum;
+	}
+	/* (non-Javadoc)
+	 * @see com.eddie.space.music.MediaPlayer#getIntense()
+	 */
+	@Override
+	public float getIntense() {
 		return intense;
 	}
     

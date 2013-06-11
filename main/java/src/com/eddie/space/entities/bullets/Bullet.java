@@ -13,6 +13,7 @@ import com.eddie.rpeg.engine.render.animation.AnimationCallback.OnAnimationCompl
 import com.eddie.rpeg.engine.render.animation.AnimationStyle;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.RotatableEntity;
+import com.eddie.space.windows.GameWindow;
 
 public abstract class Bullet extends RotatableEntity implements Damager {
 	private static final long serialVersionUID = -3436725886675567328L;
@@ -43,6 +44,10 @@ public abstract class Bullet extends RotatableEntity implements Damager {
 	
 	@Override
 	public void tick() {
+		if (GameWindow.finish) {
+			dispose();
+			return;
+		}
 		super.tick();
 		if (getAnimation() == null) {
 			dispose();

@@ -54,11 +54,19 @@ public class Asteroid extends Entity implements Killable, Damager {
 	
 	@Override
 	public int getWidth() {
+		if (getImage() == null) {
+			dispose();
+			return 1;
+		}
 		return getImage().getWidth() / size_multiplier;
 	}
 	
 	@Override
 	public int getHeight() {
+		if (getImage() == null) {
+			dispose();
+			return 1;
+		}
 		return getImage().getHeight() / size_multiplier;
 	}
 
