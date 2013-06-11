@@ -14,4 +14,9 @@ public interface MediaPlayer {
 	public float getIntense();
 	public void play(String filepath) throws IOException;
 	public void close();
+	public void setOnFinishedListener(SongCompleteListener listen);
+	
+	public interface SongCompleteListener {
+	    public void onSongComplete();
+	}
 }

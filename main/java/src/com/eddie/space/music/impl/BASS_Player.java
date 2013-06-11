@@ -27,7 +27,7 @@ public class BASS_Player implements MediaPlayer, Tick {
     private int chan;
     private static final int SIZE = 1024 * 4;
     private double speed;
-    
+    private SongCompleteListener complete;
     private float oldnum = -1;
     private double highest;
     private double lowest;
@@ -36,6 +36,7 @@ public class BASS_Player implements MediaPlayer, Tick {
     private double avg;
     private RPEG system;
     private int otherval;
+    private double length;
     private float intense;
     public BASS_Player(RPEG system) { 
         try {
@@ -69,6 +70,7 @@ public class BASS_Player implements MediaPlayer, Tick {
         BASS_ChannelPlay(chan, false);
         
         system.getTicker().addTick(this);
+        length = Bass.BASS_ChannelBytes2Seconds(chan, Bass.BASS_ChannelGetLength(chan, 0));
     }
 
     @Override
@@ -83,6 +85,12 @@ public class BASS_Player implements MediaPlayer, Tick {
     }
     
     private void calculateSpeed() {
+        if (Bass.BASS_ChannelBytes2Seconds(chan, Bass.BASS_ChannelGetPosition(chan, 0)) >= length) {
+            close();
+            if (complete != null)
+                complete.onSongComplete();
+            return;
+        }
         ByteBuffer array = BufferUtils.newByteBuffer(SIZE);
         Bass.BASS_ChannelGetData(chan, array, -2147483645); //TODO Try using -2147483644
         FloatBuffer floats = array.asFloatBuffer();
@@ -177,5 +185,9 @@ public class BASS_Player implements MediaPlayer, Tick {
 	public float getIntense() {
 		return intense;
 	}
+    @Override
+    public void setOnFinishedListener(SongCompleteListener listen) {
+        complete = listen;
+    }
     
 }

@@ -25,7 +25,7 @@ public class Game {
 	 * 2 = EASY
 	 * 3 = TRAINING
 	 */
-	public static final double DIFFICULTY = .5;
+	public static final double DIFFICULTY = 1;
 	private void startGame() {
 		RPEG.center_player = false;
 		engine.init(800, 600);

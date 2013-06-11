@@ -29,48 +29,33 @@ public class Star extends Entity implements Backdrop {
 	private float hue;
 	private long lastMove;
 	private static final Random RANDOM = new Random();
+    public Star(RPEG system, Level level, Window w) {
+        super("Star", system, level, false);
+        if (window == null)
+            Star.window = w;
+        system.getTicker().removeTick(this); //We dont need the tick
+        manager.addStar(this);
+        lastMove = manager.getLastMove();
+        z = (byte)(RANDOM.nextInt(50) + 10);           
+        hue = RANDOM.nextFloat();
 
-	public Star(RPEG system, Level level, Window w) {
-		super("Star", system, level, false);
-		if (window == null)
-			Star.window = w;
-		validateStar();
-		system.getTicker().removeTick(this); //We dont need the tick
-		manager.addStar(this);
-		lastMove = manager.getLastMove();
-		z = (byte)(RANDOM.nextInt(50) + 10);
-		hue = RANDOM.nextFloat();
-
-	}
-
-	private void validateStar() {
-		if (manager == null)
-			manager = new StarManager(system, getLevel(), window);
-		if (star != null)
-			return;
-		star = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = star.getGraphics();
-		g.setColor(Color.WHITE);
-		g.fillOval(0, 0, 4, 4);
-		g.dispose();
-	}
-
-	/* (non-Javadoc)
-	 * @see com.eddie.rpeg.engine.entity.Entity#draw(java.awt.Graphics, java.awt.image.BufferedImage)
-	 */
-	@Override
-	public void draw(Graphics g, BufferedImage screen) {
-		if (isVisible() && getImage() != null) {
-			float s = Game.m.getSpeed();
-			Color c = Color.getHSBColor(hue, s, 1.0f);
-			g.setColor(c);
-			g.fillOval((int)getDrawX(), (int)getDrawY(), (int)(100 / z), (int)(100 / z));
-		}
-		if (Math.abs(lastMove - manager.getLastMove()) > 1000) {
-			System.out.println("Dead star detected (ID " + getID() + ")");
-			dispose();
-		}
-	}
+    }
+    /* (non-Javadoc)
+     * @see com.eddie.rpeg.engine.entity.Entity#draw(java.awt.Graphics, java.awt.image.BufferedImage)
+     */
+    @Override
+    public void draw(Graphics g, BufferedImage screen) {
+        if (isVisible() && getImage() != null) {
+            float s = (float)(Game.m.getBeat() * 4.0);
+            Color c = Color.getHSBColor(hue, s, 1.0f);
+            g.setColor(c);
+            g.fillOval((int)getDrawX(), (int)getDrawY(), (int)(100 / z), (int)(100 / z));
+        }
+        if (Math.abs(lastMove - manager.getLastMove()) > 1000) {
+            System.out.println("Dead star detected (ID " + getID() + ")");
+            dispose();
+        }
+    }
 
 	@Override
 	public void tick() { }
@@ -95,8 +80,6 @@ public class Star extends Entity implements Backdrop {
 
 	@Override
 	public BufferedImage getImage() {
-		if (star == null)
-			validateStar();
 		return star;
 	}
 

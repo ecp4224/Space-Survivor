@@ -18,6 +18,7 @@ import com.eddie.space.entities.ships.impl.PlayerShip;
 import com.eddie.space.entities.star.Star;
 import com.eddie.space.game.Game;
 import com.eddie.space.game.world.SpaceWorld;
+import com.eddie.space.music.MediaPlayer.SongCompleteListener;
 import com.eddie.space.music.impl.BASS_Player;
 
 
@@ -132,29 +133,12 @@ public class MenuWindow extends Window {
 
 	@Override
 	public void init() {
+	    getObjectDrawer().register(getSystem());
+        getObjectDrawer().layerEntities(false);
+        w = new SpaceWorld(MenuWindow.this);
 		Game.m = new BASS_Player(getSystem());
-
-		File songs = new File("songs/");
-		if (!songs.exists()) {
-			songs.mkdir();
-		} else {
-			final Random rand = new Random();
-			File[] song_list = songs.listFiles();
-			if (song_list.length != 0) {
-				while (true) {
-					File f = song_list[rand.nextInt(song_list.length)];
-					if (f.isFile() && f.getName().endsWith(".mp3")) {
-						try {
-							Game.m.play(f.getAbsolutePath());
-						}
-						catch (IOException e) {
-							e.printStackTrace();
-						}
-						break;
-					}
-				}
-			}
-		}
+		Game.m.setOnFinishedListener(c_listen);
+		c_listen.onSongComplete();
 		getSystem().getEventSystem().registerEvents(this);
 		try {
 			backdrop = ImageIO.read(new File("entities/menu/start.png"));
@@ -162,10 +146,39 @@ public class MenuWindow extends Window {
 		catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		Thread c = new Continue();
+		Thread c = new Thread(continue_it);
 		c.start();
 
 	}
+	
+	private SongCompleteListener c_listen = new SongCompleteListener() {
+
+        @Override
+        public void onSongComplete() {
+            File songs = new File("songs/");
+            if (!songs.exists()) {
+                songs.mkdir();
+            } else {
+                final Random rand = new Random();
+                File[] song_list = songs.listFiles();
+                if (song_list.length != 0) {
+                    while (true) {
+                        File f = song_list[rand.nextInt(song_list.length)];
+                        if (f.isFile() && f.getName().endsWith(".mp3")) {
+                            try {
+                                Game.m.play(f.getAbsolutePath());
+                            }
+                            catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+	    
+	};
 
 	private void loadNewBackdrop() {
 		try {
@@ -206,23 +219,20 @@ public class MenuWindow extends Window {
 		super.onUnload();
 	}
 
-	private class Continue extends Thread {
+	private Runnable continue_it = new Runnable() {
 
 		@Override
 		public void run() {
-			final JFileChooser fc = new JFileChooser();
-			fc.setCurrentDirectory(new File("songs/"));
-			int result = fc.showOpenDialog(MenuWindow.this);
-			if (result == JFileChooser.APPROVE_OPTION) {
-				topass = fc.getSelectedFile().getAbsolutePath();
-			} else {
-				return;
-			}
-
-			getObjectDrawer().register(getSystem());
-			getObjectDrawer().layerEntities(false);
-			w = new SpaceWorld(MenuWindow.this);
+		    while (true) {
+		        final JFileChooser fc = new JFileChooser();
+		        fc.setCurrentDirectory(new File("songs/"));
+		        int result = fc.showOpenDialog(MenuWindow.this);
+		        if (result == JFileChooser.APPROVE_OPTION && (fc.getSelectedFile().getName().endsWith(".mp3") || fc.getSelectedFile().getName().equals(".wav"))) {
+		            topass = fc.getSelectedFile().getAbsolutePath();
+		            break;
+		        }
+		    }
 			loadNewBackdrop();
 		}
-	}
+	};
 }
