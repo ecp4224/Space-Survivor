@@ -52,21 +52,25 @@ public abstract class SpaceCraft extends RotatableEntity implements Killable, Da
 	public void setBulletType(Class<? extends Bullet> class_) {
 		this.bullet_type = class_;
 	}
-
+	
 	public void fire(int keyPressed) {
+		fire(keyPressed, true);
+	}
+
+	public void fire(int keyPressed, boolean goingup) {
 		if (!BulletManager.initRan())
 			BulletManager.init(system);
 		try {
 			for (Gun g : getGuns()) {
 				if (g.getBindKey() == keyPressed)
-					fireFromGun(g);
+					fireFromGun(g, goingup);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void fireFromGun(Gun g) {
+	public void fireFromGun(Gun g, boolean goingup) {
 		try {
 			Constructor<? extends Bullet> construct = bullet_type.getConstructor(Level.class, RPEG.class);
 			Bullet b = construct.newInstance(getLevel(), system);
@@ -80,9 +84,14 @@ public abstract class SpaceCraft extends RotatableEntity implements Killable, Da
 			if (getRotation() > 90 && getRotation() < 270)
 				xx *= -1;
 			b.setXAdd(xx);
+			b.goingUp(goingup);
 			b.setVisible(true);
 			CollisionMover cm = new SimpleCollisionMover(b, system);
 			cm.ignoreEntity(this);
+			if (getMover("CollisionMover") != null) {
+				CollisionMover move = (CollisionMover) getMover("CollisionMover");
+				move.ignoreEntity(b);
+			}
 			b.addMover(cm);
 			getDrawerParent().addObject(b);
 		} catch (Exception e) {

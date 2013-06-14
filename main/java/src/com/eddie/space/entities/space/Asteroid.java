@@ -28,7 +28,7 @@ public class Asteroid extends Entity implements Killable, Damager {
 	public Asteroid(Level level, RPEG core) {
 		super("asteroid" + RANDOM.nextInt(COUNT), core, level);
 		size_multiplier = RANDOM.nextInt(2) + 1;
-		health = 100 / size_multiplier;
+		health = 40 / size_multiplier;
 	}
 	
 	@Override

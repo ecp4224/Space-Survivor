@@ -25,9 +25,11 @@ import com.eddie.rpeg.engine.events.Priority;
 import com.eddie.rpeg.engine.events.model.render.onDrawEvent;
 import com.eddie.rpeg.engine.render.gui.Window;
 import com.eddie.rpeg.engine.system.RPEG;
+import com.eddie.space.entities.InvaderSpawner;
 import com.eddie.space.entities.bullets.impl.Player_Level1;
 import com.eddie.space.entities.ships.impl.PlayerShip;
 import com.eddie.space.entities.ships.impl.enemy.Enemy1;
+import com.eddie.space.entities.ships.impl.enemy.Invader;
 import com.eddie.space.entities.space.AsteroidSpawner;
 import com.eddie.space.entities.star.Star;
 import com.eddie.space.events.OnBeat;
@@ -44,6 +46,7 @@ public class GameWindow extends Window implements Listener {
 	private String song;
 	public static boolean finish;
 	private boolean fade;
+	public static InvaderSpawner spawn;
 	private BufferedImage gameover;
 
 	/**
@@ -136,7 +139,8 @@ public class GameWindow extends Window implements Listener {
         catch (IOException e) {
             e.printStackTrace();
         }
-		addRandomEnemy();
+		
+		spawn = new InvaderSpawner(getSystem(), w, getObjectDrawer());
 		new AsteroidSpawner(getSystem(), w, getObjectDrawer());
 		
 	}
@@ -180,18 +184,11 @@ public class GameWindow extends Window implements Listener {
 	}
 	
 	private void addRandomEnemy() {
-		Enemy1 p = new Enemy1(getSystem(), w);
+		Invader p = new Invader(getSystem(), w);
 		p.setY(100);
 		p.setVisible(true);
 		getObjectDrawer().addObject(p);
 		p.setX(getSystem().getMaxScreenX() / 2 - 32);
-		p.setBulletType(Player_Level1.class);
-		WaypointMover test_move = new WaypointMover(p, getSystem());
-		Random r = new Random();
-		test_move.addWaypoint(r.nextInt(getSystem().getMaxScreenX()), r.nextInt(getSystem().getMaxScreenY()));
-		test_move.addWaypoint(r.nextInt(getSystem().getMaxScreenX()), r.nextInt(getSystem().getMaxScreenY()));
-		test_move.addWaypoint(r.nextInt(getSystem().getMaxScreenX()), r.nextInt(getSystem().getMaxScreenY()));
-		p.addMover(test_move);
 	}
 	
 	@EventHandler

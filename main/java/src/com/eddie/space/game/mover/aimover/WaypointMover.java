@@ -12,7 +12,6 @@ import java.util.List;
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.Mover;
 import com.eddie.rpeg.engine.system.RPEG;
-import com.eddie.space.entities.RotatableEntity;
 
 public class WaypointMover extends Mover {
 	private List<Waypoint> waypoints = new ArrayList<Waypoint>();
@@ -23,6 +22,7 @@ public class WaypointMover extends Mover {
 	private boolean xreached;
 	private boolean yreached;
 	private double speed = 1.5;
+	private boolean active = false;
 
 	/**
 	 * @param parent
@@ -46,10 +46,11 @@ public class WaypointMover extends Mover {
 	 */
 	@Override
 	public void moveTick() {
+		if (!active)
+			return;
 		if (moving) {
 			if (current_target != null && !hasReachedTarget()) {
 				moveTowards(current_target, speed);
-				setAngle();
 			} else {
 				moving = false;
 				waypoints.remove(current_target);
@@ -65,8 +66,6 @@ public class WaypointMover extends Mover {
 			if (waypoints.size() > 0) {
 				current_target = waypoints.get(0);
 				moving = true;
-				if (getParent() instanceof RotatableEntity)
-					setAngle();
 				moveTowards(current_target, speed);
 				return;
 			}
@@ -93,18 +92,17 @@ public class WaypointMover extends Mover {
 		}
 	}
 
-	private void setAngle() {
-		RotatableEntity r = (RotatableEntity)getParent();
-		float angle = (float) Math.toDegrees(Math.atan2((current_target.getX() - getParent().getX()), -(current_target.getY() - getParent().getY())));
-		if(angle < 0){
-			angle += 360;
-		}
-
-		r.setRotation((int)angle);
-	}
-
 	private boolean hasReachedTarget() {
 		return xreached && yreached;
+	}
+	
+	public boolean isMoving() {
+		return moving;
+	}
+	
+	public void clearMover() {
+		current_target = null;
+		waypoints.clear();
 	}
 
 	public void addWaypoint(Waypoint toadd) {
@@ -113,5 +111,13 @@ public class WaypointMover extends Mover {
 
 	public void addWaypoint(double targetx, double targety) {
 		addWaypoint(new Waypoint(targetx, targety));
+	}
+	
+	public void setActive(boolean value) {
+		this.active = value;
+	}
+	
+	public boolean isActive() {
+		return active;
 	}
 }

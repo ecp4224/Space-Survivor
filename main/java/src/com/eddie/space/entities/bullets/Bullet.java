@@ -7,6 +7,7 @@
 package com.eddie.space.entities.bullets;
 
 import com.eddie.rpeg.engine.entity.Entity;
+import com.eddie.rpeg.engine.entity.mover.InvalidCollisionException;
 import com.eddie.rpeg.engine.entity.types.Damager;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.render.animation.AnimationCallback.OnAnimationCompleted;
@@ -29,12 +30,13 @@ public abstract class Bullet extends RotatableEntity implements Damager {
 	 * @see com.eddie.rpeg.engine.entity.types.Damager#onHit(com.eddie.rpeg.engine.entity.Entity, double, double)
 	 */
 	@Override
-	public void onHit(Entity hit, double cx, double cy) {
-		System.out.println("HIT!");
+	public void onHit(Entity hit, double cx, double cy) throws InvalidCollisionException {
 		if (getAnimation() == null) {
 			dispose();
 			return;
 		}
+		if (getAnimation().getStyle() == AnimationStyle.DEATH)
+			throw new InvalidCollisionException();
 		super.clearMoverList();
 		setY(getY() + (hit.getImage().getHeight() / 2));
 		super.getAnimation().setAnimation(AnimationStyle.DEATH);
@@ -54,8 +56,9 @@ public abstract class Bullet extends RotatableEntity implements Damager {
 		}
 		else if (isVisible() && getAnimation().getStyle() != AnimationStyle.DEATH) {
 			setX(getX() + xadd);
-			setY((getY() - (BulletManager.getSpeed() * yadd)));
-			if (getY() <= 0)
+			double y = getY() - (BulletManager.getSpeed() * yadd);
+			setY(y);
+			if (getY() <= 0 || getY() > system.getMaxScreenY())
 				dispose();
 		}
 	}

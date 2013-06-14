@@ -7,8 +7,6 @@
 package com.eddie.rpeg.engine.entity;
 
 import java.awt.Graphics;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -243,33 +241,6 @@ public abstract class Entity implements Tick, Serializable{
 				return null;
 			}
 		}
-	}
-	
-	public void rotate(double degree) {
-		if (getImage() == null)
-			return;
-		if (degree < 0 || degree > 360)
-			throw new InvalidParameterException("Degree's can only be between 0 and 360");
-		setImage(rotateImage(degree, getImage()));
-	}
-	
-	public BufferedImage rotateImage(double degree, BufferedImage img) {
-		if (degree < 0 || degree > 360)
-			throw new InvalidParameterException("Degree's can only be between 0 and 360");
-		//BufferedImage temp = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		AffineTransform identity = new AffineTransform();
-
-		//Graphics2D g2d = temp.createGraphics();
-		AffineTransform trans = new AffineTransform();
-		trans.setTransform(identity);
-		trans.translate(img.getWidth() * .5, img.getHeight() * .5);
-		trans.rotate(Math.toRadians(degree));
-		trans.translate(img.getWidth() * -.5, img.getHeight() * -.5);
-		AffineTransformOp op = new AffineTransformOp(trans, AffineTransformOp.TYPE_BILINEAR);
-		img = op.filter(img, null);
-		//g2d.drawImage(img, trans, null);
-		//g2d.dispose();
-		return img;
 	}
 
 	public void setImage(BufferedImage image) {

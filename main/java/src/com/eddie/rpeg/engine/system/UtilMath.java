@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.CollisionMover;
+import com.eddie.rpeg.engine.entity.mover.InvalidCollisionException;
 import com.eddie.rpeg.engine.entity.types.Backdrop;
 import com.eddie.rpeg.engine.entity.types.Damager;
 import com.eddie.rpeg.engine.entity.types.Killable;
@@ -43,8 +44,12 @@ public class UtilMath {
 								if (e instanceof Killable) {
 									Killable k = (Killable)e;
 									if (k.canKill()) {
-										d.onHit(e, e.getX(), e.getY());
-										k.hit(d.getDamage(), (Entity)d);
+										try {
+											d.onHit(e, e.getX(), e.getY());
+											k.hit(d.getDamage(), (Entity)d);
+										} catch (InvalidCollisionException ee) {
+											continue;
+										}
 									}
 								}
 							}

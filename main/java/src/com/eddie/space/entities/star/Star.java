@@ -34,18 +34,21 @@ public class Star extends Entity implements Backdrop {
         if (window == null)
             Star.window = w;
         system.getTicker().removeTick(this); //We dont need the tick
+        if (manager == null)
+        	manager = new StarManager(system, level, w);
         manager.addStar(this);
         lastMove = manager.getLastMove();
         z = (byte)(RANDOM.nextInt(50) + 10);           
         hue = RANDOM.nextFloat();
 
     }
+    
     /* (non-Javadoc)
      * @see com.eddie.rpeg.engine.entity.Entity#draw(java.awt.Graphics, java.awt.image.BufferedImage)
      */
     @Override
     public void draw(Graphics g, BufferedImage screen) {
-        if (isVisible() && getImage() != null) {
+        if (isVisible()) {
             float s = (float)(Game.m.getBeat() * 4.0);
             Color c = Color.getHSBColor(hue, s, 1.0f);
             g.setColor(c);

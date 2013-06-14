@@ -7,6 +7,7 @@
 package com.eddie.rpeg.engine.entity.types;
 
 import com.eddie.rpeg.engine.entity.Entity;
+import com.eddie.rpeg.engine.entity.mover.InvalidCollisionException;
 
 /**
  * Any entity implementing this class shows that they can cause
@@ -25,6 +26,6 @@ public interface Damager {
 	 * @param cx
 	 * @param cy
 	 */
-	public void onHit(Entity hit, double cx, double cy);
+	public void onHit(Entity hit, double cx, double cy) throws InvalidCollisionException;
 
 }
