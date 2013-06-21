@@ -10,11 +10,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.eddie.rpeg.engine.entity.Entity;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.SwingWindow;
 import com.eddie.rpeg.engine.system.RPEG;
+import com.eddie.space.windows.GameWindow;
 
 public abstract class KeyMover extends Mover implements KeyListener {
-	private Window window;
+	private GameWindow window;
 	protected boolean dispose = false;
 	protected final boolean[] keys = new boolean[256];
 	
@@ -25,7 +26,7 @@ public abstract class KeyMover extends Mover implements KeyListener {
 		super(parent, core, "KeyMover");
 	}
 	
-	public void attachMover(Window w) {
+	public void attachMover(GameWindow w) {
 		if (dispose)
 			return;
 		this.window = w;

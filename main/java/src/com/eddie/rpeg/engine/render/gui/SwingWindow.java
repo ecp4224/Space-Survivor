@@ -11,7 +11,7 @@ import com.eddie.rpeg.engine.render.Render;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.rpeg.engine.system.Tick;
 
-public abstract class Window extends Canvas implements Tick, Listener, KeyListener {
+public abstract class SwingWindow extends Canvas implements GameWindow {
 	private static final long serialVersionUID = -8891174773885679995L;
 
 	private RPEG system;
@@ -22,7 +22,7 @@ public abstract class Window extends Canvas implements Tick, Listener, KeyListen
 	
 	private Render render;
 	
-	public Window(RPEG system) {
+	public SwingWindow(RPEG system) {
 		this.system = system;
 		this.system.getEventSystem().registerEvents(this);
 		render = new Render(this);

@@ -17,14 +17,15 @@ import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.events.Priority;
 import com.eddie.rpeg.engine.events.model.render.onDrawEvent;
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.SwingWindow;
+import com.eddie.space.windows.GameWindow;
 
 public class SpaceWorld implements Level, Listener {
-	private Window parent;
+	private GameWindow parent;
 	private BufferedImage background;
 	private int max_x;
 	private int max_y;
-	public SpaceWorld(Window parent) {
+	public SpaceWorld(GameWindow parent) {
 		this.parent = parent;
 		max_x = parent.getSystem().getMaxScreenX();
 		max_y = parent.getSystem().getMaxScreenY();
@@ -40,7 +41,7 @@ public class SpaceWorld implements Level, Listener {
 	 * @see com.eddie.rpeg.engine.level.Level#getParentWindow()
 	 */
 	@Override
-	public Window getParentWindow() {
+	public GameWindow getParentWindow() {
 		return parent;
 	}
 

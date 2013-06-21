@@ -1,15 +1,9 @@
 package com.eddie.rpeg.engine.system;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-
-import javax.swing.JFrame;
-
 import com.eddie.rpeg.engine.events.EventSystem;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.GameWindow;
+import com.eddie.rpeg.engine.render.gui.WindowManager;
 
 public class RPEG {
     /**
@@ -34,10 +28,7 @@ public class RPEG {
 
     private EventSystem es;
     
-    private JFrame frame = new JFrame("Loading...");
-    
-    private Window currentlyselected;
-    private final GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    private WindowManager manager;
     
     /**
      * Initialize the engine and set the max screen width and height.
@@ -46,12 +37,10 @@ public class RPEG {
      * @param maxy
      *            The max screen height to set
      */
-    public void init(int maxx, int maxy) {
+    public void init(int maxx, int maxy, WindowManager manager) {
     	this.MAX_SCREEN_X = maxx;
     	this.MAX_SCREEN_Y = maxy;
-		frame.setMinimumSize(new Dimension(MAX_SCREEN_X, MAX_SCREEN_Y));
-		frame.setLocation((gd.getDisplayMode().getWidth() - frame.getWidth()) / 2, (gd.getDisplayMode().getHeight() - frame.getHeight()) / 2);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	this.manager = manager;
     }
     
     public int getMaxScreenX() {
@@ -64,12 +53,10 @@ public class RPEG {
     
     public void setMaxScreenX(int maxx) {
     	this.MAX_SCREEN_X = maxx;
-    	frame.setMinimumSize(new Dimension(MAX_SCREEN_X, MAX_SCREEN_Y));
     }
     
     public void setMaxScreenY(int maxy) {
     	this.MAX_SCREEN_Y = maxy;
-    	frame.setMinimumSize(new Dimension(MAX_SCREEN_X, MAX_SCREEN_Y));
     }
     
     /**
@@ -77,28 +64,8 @@ public class RPEG {
      * @param w
      *         The window to change to.
      */
-    public void setWindow(Window w) {
-    	if (currentlyselected != null) {
-    	    currentlyselected.onUnload();
-    		currentlyselected = w;
-    		frame.setVisible(false);
-    		frame.dispose();
-    		frame = null;
-    		
-    		frame = new JFrame("Loading..");
-    		frame.setMinimumSize(new Dimension(MAX_SCREEN_X, MAX_SCREEN_Y));
-            frame.setLocation((gd.getDisplayMode().getWidth() - frame.getWidth()) / 2, (gd.getDisplayMode().getHeight() - frame.getHeight()) / 2);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	}
-		currentlyselected = w;
-		currentlyselected.init();
-    	frame.setLayout(new BorderLayout());
-		frame.add(currentlyselected, "Center");
-		frame.setTitle(w.getName());
-		currentlyselected.setFocusable(true);
-		frame.pack();
-		frame.setVisible(true);
-    	currentlyselected.onLoad();
+    public void setWindow(GameWindow w) {
+    	manager.setWindow(w);
     }
 
     public RPEG() {
@@ -149,8 +116,8 @@ public class RPEG {
 	/**
 	 * @return
 	 */
-	public Window getCurrentWindow() {
-		return currentlyselected;
+	public GameWindow getCurrentWindow() {
+		return manager.getActiveWindow();
 	}
 
 }

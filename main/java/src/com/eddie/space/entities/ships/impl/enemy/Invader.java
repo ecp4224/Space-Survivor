@@ -15,7 +15,8 @@ import com.eddie.rpeg.engine.level.Level;
 import com.eddie.space.entities.space.Asteroid;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.bullets.Bullet;
-import com.eddie.space.entities.bullets.impl.Invader_Bullet;
+import com.eddie.space.entities.bullets.impl.Invader_Bullet0;
+import com.eddie.space.entities.items.Item;
 import com.eddie.space.entities.ships.Gun;
 import com.eddie.space.entities.ships.SpaceCraft;
 import com.eddie.space.entities.ships.impl.PlayerShip;
@@ -31,7 +32,7 @@ public class Invader extends SpaceCraft {
 	private Entity lastdamage;
 	public WaypointMover mover;
 	private boolean loaded;
-	public static final int MAX_LEVEL = 1;
+	public static final int MAX_LEVEL = 5;
 	private static final Random RANDOM = new Random();
 	public static int instancecount = 0;
 
@@ -42,22 +43,29 @@ public class Invader extends SpaceCraft {
 	 */
 	public Invader(RPEG core, Level level, int difficulty) {
 		super("invader" + difficulty, core, level);
+		this.level = difficulty;
 		health = 35 * (this.level + 1);
 
 		mover = new WaypointMover(this, core);
 		mover.setActive(true);
 		addMover(mover);
-		setBulletType(Invader_Bullet.class);
+		setBulletType(Invader_Bullet0.class);
 	}
 	
 	public Invader(RPEG core, Level level) {
-		this(core, level, RANDOM.nextInt(MAX_LEVEL));
+		this(core, level, RANDOM.nextInt(MAX_LEVEL - (Game.m.getIntense() > 1 ? 0 : 2)));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onLoad() {
 		loaded = true;
 		instancecount++;
+		try {
+			super.setBulletType((Class<? extends Bullet>) Class.forName("com.eddie.space.entities.bullets.impl.Invader_Bullet" + this.level));
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -97,9 +105,10 @@ public class Invader extends SpaceCraft {
 	
 	@Override
 	public void kill() {
+		if (RANDOM.nextDouble() < .09)
+			Item.createRandomItem(system, getLevel(), getDrawerParent(), getX(), getY());
 		super.kill();
-		instancecount--;
-		System.out.println(instancecount);
+		instancecount -= 2;
 		if (instancecount <= 0) {
 			instancecount = 0;
 			GameWindow.spawn.spawnInvaders(RANDOM.nextInt(MAX_LEVEL));
@@ -154,7 +163,7 @@ public class Invader extends SpaceCraft {
 		} else
 			wait--;
 
-		mover.setSpeed(Game.m.getSpeed() / 20);
+		mover.setSpeed(Game.m.getSpeed() / (40 - level));
 
 		if (!mover.isMoving() && RANDOM.nextDouble() > 0.7) {
 			Waypoint w = new Waypoint(RANDOM.nextInt(system.getMaxScreenX()), getY());

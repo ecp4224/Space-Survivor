@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import com.eddie.rpeg.engine.entity.model.StaticEntity;
 import com.eddie.rpeg.engine.entity.mover.KeyMover;
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.SwingWindow;
 import com.eddie.rpeg.engine.system.RPEG;
 
 /**
@@ -24,7 +24,7 @@ public class FrameMover extends StaticEntity {
 	private static final long serialVersionUID = -982486138992646201L;
 	private transient KeyMover move;
 	
-	public FrameMover(RPEG system, Window w, Level l) {
+	public FrameMover(RPEG system, GameWindow w, Level l) {
 		super("FrameMover", system, l);
 	}
 	

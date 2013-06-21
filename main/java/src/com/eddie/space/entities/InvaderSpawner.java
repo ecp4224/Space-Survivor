@@ -33,18 +33,17 @@ public class InvaderSpawner implements Listener {
 	
 	@EventHandler
 	public void onBeat(OnBeat event) {
-		if (event.getMel() > 1) {
-			//TODO Spawn some more while some are on the field
-		}
-		else if (event.getBeat() > .5 && Invader.instancecount <= 0) {
+		if (event.getBeat() > .5 && Invader.instancecount <= 0) {
 			Invader.instancecount = 0;
-			spawnInvaders(RANDOM.nextInt(Invader.MAX_LEVEL));
+			spawnInvaders(RANDOM.nextInt(Invader.MAX_LEVEL - (Game.m.getIntense() > 1 ? 0 : 2)));
 		}
 	}
 	
 	
 	public void spawnInvaders(int dif) {
 		int count = RANDOM.nextInt(Game.m.getSpeed() / 4);
+		if (dif >= 3 && count > 2)
+			count = 2;
 		
 		for (int i = 0; i < count; i++) {
 			Invader invader = new Invader(core, level, dif);
@@ -52,8 +51,8 @@ public class InvaderSpawner implements Listener {
 			invader.setY(10);
 			
 			int y = 10;
-			for (int z = 0; z < (dif + 1) * 2; z++) {
-				if ((z % 2 != 0 && dif % 2 == 0) || (z % 2 == 0 && dif % 2 != 0)) {
+			for (int z = 0; z < (dif + 3) * 2; z++) {
+				if ((z % 2 == 0 && dif % 2 == 0) || (z % 2 != 0 && dif % 2 != 0)) {
 					Waypoint w = new Waypoint(core.getMaxScreenX() - (32 * i), y);
 					invader.mover.addWaypoint(w);
 				} else if ((z % 2 == 0 && dif % 2 != 0) || (z % 2 != 0 && dif % 2 == 0)) {
@@ -66,6 +65,8 @@ public class InvaderSpawner implements Listener {
 			
 			invader.setVisible(true);
 			drawer.addObject(invader);
+			if (Invader.instancecount > 20)
+				return;
 		}
 	}
 }

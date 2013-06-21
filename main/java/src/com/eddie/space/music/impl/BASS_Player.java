@@ -38,6 +38,7 @@ public class BASS_Player implements MediaPlayer, Tick {
     private int otherval;
     private double length;
     private float intense;
+    private int wait;
     public BASS_Player(RPEG system) { 
         try {
             BassInit.loadLibraries();
@@ -109,11 +110,13 @@ public class BASS_Player implements MediaPlayer, Tick {
             highest = speed;
             all = 0;
             count = 0;
+            wait = 0;
         }
         if (lowest == 0 || speed < lowest) {
             lowest = speed;
             all = 0;
             count = 0;
+            wait = 0;
         }
         all += Math.round(speed);
         count++;
@@ -123,6 +126,7 @@ public class BASS_Player implements MediaPlayer, Tick {
             all = 0;
             highest = 0;
             lowest = 0;
+            wait = 0;
         }
         oldnum = num;
         

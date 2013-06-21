@@ -64,7 +64,8 @@ public class UtilMath {
 	}
 	
 	private static boolean ignoreEntity(CollisionMover mover, Entity e) {
-		for (Entity ee : mover.ignore) {
+		Entity[] move = mover.ignore.toArray(new Entity[mover.ignore.size()]);
+		for (Entity ee : move) {
 			if (ee == null)
 				continue;
 			if (ee.getName().equals(e.getName()) && e.getID() == ee.getID())

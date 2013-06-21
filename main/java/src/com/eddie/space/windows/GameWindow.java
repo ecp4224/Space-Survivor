@@ -23,10 +23,11 @@ import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.events.Priority;
 import com.eddie.rpeg.engine.events.model.render.onDrawEvent;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.SwingWindow;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.InvaderSpawner;
 import com.eddie.space.entities.bullets.impl.Player_Level1;
+import com.eddie.space.entities.items.Item;
 import com.eddie.space.entities.ships.impl.PlayerShip;
 import com.eddie.space.entities.ships.impl.enemy.Enemy1;
 import com.eddie.space.entities.ships.impl.enemy.Invader;
@@ -38,7 +39,7 @@ import com.eddie.space.game.mover.ShipKeyMover;
 import com.eddie.space.game.mover.aimover.WaypointMover;
 import com.eddie.space.game.world.SpaceWorld;
 
-public class GameWindow extends Window implements Listener {
+public class GameWindow extends SwingWindow implements Listener {
 	
 	private static final long serialVersionUID = 2704165502672086720L;
 	private SpaceWorld w;
@@ -62,6 +63,9 @@ public class GameWindow extends Window implements Listener {
 	 */
 	@Override
 	public void tick() {
+		if (PlayerShip.instance != null && PlayerShip.instance.getY() != getSystem().getMaxScreenY() - 100) {
+			PlayerShip.instance.setY(getSystem().getMaxScreenY() - 100);
+		}
 		createStar();
 		createStar();
 		createStar();
@@ -154,7 +158,6 @@ public class GameWindow extends Window implements Listener {
 			g.setFont(g.getFont().deriveFont(108f));
 			g.setColor(Color.white);
 			g.drawString("Game Over", 108, (getSystem().getMaxScreenY() / 2) - 72);
-			ImageIO.write(gameover, "PNG", new File("wat.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
@@ -181,14 +184,6 @@ public class GameWindow extends Window implements Listener {
 		p.setX(getSystem().getMaxScreenX() / 2 - 32);
 		p.setBulletType(Player_Level1.class);
 		p.setBounce(true);
-	}
-	
-	private void addRandomEnemy() {
-		Invader p = new Invader(getSystem(), w);
-		p.setY(100);
-		p.setVisible(true);
-		getObjectDrawer().addObject(p);
-		p.setX(getSystem().getMaxScreenX() / 2 - 32);
 	}
 	
 	@EventHandler

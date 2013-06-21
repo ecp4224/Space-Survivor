@@ -95,7 +95,8 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	}
 
 	private static final long serialVersionUID = -3696970516358028607L;
-	private double health = 100;
+	public double health = 100;
+	public int firerate = 1;
 	public static PlayerShip instance;
 
 	/* (non-Javadoc)
@@ -152,6 +153,23 @@ public class PlayerShip extends SpaceCraft implements Listener {
 	@Override
 	public boolean canKill() {
 		return getHealth() > 0;
+	}
+	
+	@Override
+	public void fire(final int key) {
+		new Thread() {
+			@Override
+			public void run() {
+				for (int i = 0; i < firerate; i++) {
+					PlayerShip.super.fire(key);
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
 	}
 
 	public void drawHealth(Graphics g) {

@@ -7,10 +7,11 @@ import java.util.Random;
 import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.events.Listener;
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.SwingWindow;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.events.OnBeat;
 import com.eddie.space.game.Game;
+import com.eddie.space.windows.GameWindow;
 
 
 public class StarManager implements Listener {
@@ -20,13 +21,13 @@ public class StarManager implements Listener {
     private List<Star> stars = new ArrayList<Star>();
     private RPEG system;
     private Level world;
-    private Window window;
+    private GameWindow window;
     private static final Random random = new Random();
     private int num;
     private float num2;
     private long lastMove;
     
-    public StarManager(RPEG system, Level world, Window window) {
+    public StarManager(RPEG system, Level world, GameWindow window) {
         this.system = system;
         this.world = world;
         system.getEventSystem().registerEvents(this);
@@ -69,7 +70,7 @@ public class StarManager implements Listener {
     }
     
     public void createStars() {
-    	int count = random.nextInt((avg == 0 ? 1 : avg) * 4) + (int)((40 / Game.DIFFICULTY));
+    	int count = random.nextInt((avg == 0 ? 1 : avg) * 4) + (int)((60 / Game.DIFFICULTY));
     	for (int i = 0; i < count; i++) {
     		createStar();
     	}

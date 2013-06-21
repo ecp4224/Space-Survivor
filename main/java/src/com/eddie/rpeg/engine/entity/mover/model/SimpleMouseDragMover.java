@@ -12,12 +12,13 @@ import java.awt.event.MouseMotionListener;
 
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.mover.Mover;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.SwingWindow;
 import com.eddie.rpeg.engine.system.RPEG;
+import com.eddie.space.windows.GameWindow;
 
 public class SimpleMouseDragMover extends Mover implements MouseListener, MouseMotionListener {
 
-	Window window;
+	GameWindow window;
 	private boolean isdragging;
 	private double _dragFromX = 0;
 	private double _dragFromY = 0;
@@ -26,7 +27,7 @@ public class SimpleMouseDragMover extends Mover implements MouseListener, MouseM
 	/**
 	 * @param core
 	 */
-	public SimpleMouseDragMover(Entity parent, RPEG core, Window window) {
+	public SimpleMouseDragMover(Entity parent, RPEG core, GameWindow window) {
 		super(parent, core, "MouseDragMover");
 		this.window = window;
 	}

@@ -14,9 +14,10 @@ import java.util.Random;
 import com.eddie.rpeg.engine.entity.Entity;
 import com.eddie.rpeg.engine.entity.types.Backdrop;
 import com.eddie.rpeg.engine.level.Level;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.SwingWindow;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.game.Game;
+import com.eddie.space.windows.GameWindow;
 
 public class Star extends Entity implements Backdrop {
 	private static final long serialVersionUID = -7584479734207900386L;
@@ -24,12 +25,12 @@ public class Star extends Entity implements Backdrop {
 	private final int TOLERENCE = 10;
 	private static BufferedImage star;
 	private static StarManager manager;
-	private static Window window;
+	private static GameWindow window;
 	private byte z;
 	private float hue;
 	private long lastMove;
 	private static final Random RANDOM = new Random();
-    public Star(RPEG system, Level level, Window w) {
+    public Star(RPEG system, Level level, GameWindow w) {
         super("Star", system, level, false);
         if (window == null)
             Star.window = w;

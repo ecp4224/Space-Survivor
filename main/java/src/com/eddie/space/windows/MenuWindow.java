@@ -11,7 +11,7 @@ import javax.swing.JFileChooser;
 
 import com.eddie.rpeg.engine.events.EventHandler;
 import com.eddie.rpeg.engine.events.model.render.onDrawEvent;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.SwingWindow;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.bullets.impl.Player_Level1;
 import com.eddie.space.entities.ships.impl.PlayerShip;
@@ -22,7 +22,7 @@ import com.eddie.space.music.MediaPlayer.SongCompleteListener;
 import com.eddie.space.music.impl.BASS_Player;
 
 
-public class MenuWindow extends Window {
+public class MenuWindow extends SwingWindow {
 	private static final long serialVersionUID = 1920644121510306595L;
 	private boolean space;
 	private int MENU_ITEM = 1;

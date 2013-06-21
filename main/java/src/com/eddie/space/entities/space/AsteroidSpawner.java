@@ -27,7 +27,7 @@ public class AsteroidSpawner implements Listener {
 	private static int avg;
 	private static ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 	private static final Random RAND = new Random();
-	
+
 	public AsteroidSpawner(RPEG core, Level level, ObjectDrawer drawer) {
 		AsteroidSpawner.core = core;
 		world = level;
@@ -35,11 +35,11 @@ public class AsteroidSpawner implements Listener {
 		core.getEventSystem().registerEvents(this);
 		init = true;
 	}
-	
+
 	public static boolean initRan() {
 		return init;
 	}
-	
+
 	@EventHandler
 	public void beat(OnBeat event) {
 		if (GameWindow.finish) {
@@ -52,31 +52,32 @@ public class AsteroidSpawner implements Listener {
 		}
 		avg = (int)(event.getSpeed());
 		move_speed = (avg / 3.0) / 1.5;
-		if (asteroids.size() == 0 && RAND.nextDouble() > .7)
+		if (asteroids.size() == 0 && RAND.nextDouble() > .9)
 			spawnAll();
 		moveThem();
 	}
-	
+
 	public static double getSpeed() {
 		return move_speed / 3;
 	}
-	
+
 	public static void add(Asteroid a) {
 		asteroids.add(a);
 	}
-	
+
 	public static void remove(Asteroid a) {
 		asteroids.remove(a);
-		spawnAll();
+		if (RAND.nextDouble() > .7)
+			spawnAll();
 	}
-	
+
 	private static void moveThem() {
 		Asteroid[] temp = asteroids.toArray(new Asteroid[asteroids.size()]);
 		for (Asteroid p : temp) {
 			p.move();
 		}
 	}
-	
+
 	private static void spawn() {
 		Asteroid p = new Asteroid(world, core);
 		SimpleCollisionMover c_m = new SimpleCollisionMover(p, core);
@@ -87,13 +88,13 @@ public class AsteroidSpawner implements Listener {
 		drawer.addObject(p);
 		add(p);
 	}
-	
+
 	private static synchronized void spawnAll() {
 		if (asteroids.size() > 3)
 			return;
-		int count = RAND.nextInt(3) + 1;
-    	for (int i = 0; i < count; i++) {
-    		spawn();
-    	}
+		int count = RAND.nextInt(2) + 1;
+		for (int i = 0; i < count; i++) {
+			spawn();
+		}
 	}
 }

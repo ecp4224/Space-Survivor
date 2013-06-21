@@ -16,6 +16,7 @@ import com.eddie.rpeg.engine.entity.types.Killable;
 import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.bullets.Bullet;
+import com.eddie.space.entities.items.Item;
 import com.eddie.space.entities.ships.impl.PlayerShip;
 
 public class Asteroid extends Entity implements Killable, Damager {
@@ -137,6 +138,8 @@ public class Asteroid extends Entity implements Killable, Damager {
 	 */
 	@Override
 	public void kill() {
+		if (RANDOM.nextDouble() < .8)
+			Item.createRandomItem(system, getLevel(), getDrawerParent(), getX(), getY());
 		dispose();
 	}
 	

@@ -13,7 +13,7 @@ import com.eddie.rpeg.engine.level.Level;
 import com.eddie.rpeg.engine.system.RPEG;
 import com.eddie.space.entities.bullets.Bullet;
 
-public class Invader_Bullet extends Bullet  {
+public class Invader_Bullet1 extends Bullet  {
 	private static final long serialVersionUID = -5590959963570988601L;
 
 	/**
@@ -21,7 +21,7 @@ public class Invader_Bullet extends Bullet  {
 	 * @param l
 	 * @param core
 	 */
-	public Invader_Bullet(Level l, RPEG core) {
+	public Invader_Bullet1(Level l, RPEG core) {
 		super("ib_1", l, core);
 	}
 
@@ -30,7 +30,7 @@ public class Invader_Bullet extends Bullet  {
 	 */
 	@Override
 	public int getDamage() {
-		return 5;
+		return 10;
 	}
 
 	/* (non-Javadoc)

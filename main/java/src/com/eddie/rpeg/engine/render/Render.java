@@ -7,16 +7,17 @@ import java.awt.image.BufferedImage;
 
 import com.eddie.rpeg.engine.entity.model.design.LightSource;
 import com.eddie.rpeg.engine.events.model.render.onDrawEvent;
-import com.eddie.rpeg.engine.render.gui.Window;
+import com.eddie.rpeg.engine.render.gui.SwingWindow;
 import com.eddie.rpeg.engine.system.Tick;
+import com.eddie.rpeg.engine.render.gui.GameWindow;
 
 public class Render implements Tick {
 	
-	private Window currentWindow;
+	private GameWindow currentWindow;
 	private BufferedImage temp;
 	private BufferStrategy bf;
 	
-	public Render(Window window) {
+	public Render(GameWindow window) {
 		this.currentWindow = window;
 	}
 	

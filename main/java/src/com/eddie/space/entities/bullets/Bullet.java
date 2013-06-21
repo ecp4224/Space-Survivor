@@ -23,7 +23,14 @@ public abstract class Bullet extends RotatableEntity implements Damager {
 	
 	public Bullet(String name, Level l, RPEG core) {
 		super(name, core, l);
-		getAnimation().setOnAnimationCompletedCallback(ANIFINISH);
+		if (getAnimation() != null)
+			getAnimation().setOnAnimationCompletedCallback(ANIFINISH);
+	}
+	
+	@Override
+	public void onLoad() {
+		if (getAnimation() != null)
+			getAnimation().setOnAnimationCompletedCallback(ANIFINISH);
 	}
 
 	/* (non-Javadoc)
